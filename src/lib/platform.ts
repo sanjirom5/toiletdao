@@ -19,8 +19,8 @@ export interface Stall {
 export const VENUE = "nFactorial Bathroom";
 
 export const STALLS: Stall[] = [
-  { id: "1", name: "Stall 1", ticker: "NFB·1", designation: `${VENUE} · Floor 3 · by the window`, base: 3.5, vol: 0.5, min: 1.5, max: 9, seed: 1337 },
-  { id: "2", name: "Stall 2", ticker: "NFB·2", designation: `${VENUE} · Floor 3 · by the door`, base: 4.2, vol: 0.78, min: 1.5, max: 9, seed: 7331 },
+  { id: "1", name: "Toilet 1", ticker: "NFB·1", designation: `${VENUE} · Floor 3 · by the window`, base: 3.5, vol: 0.5, min: 1.5, max: 9, seed: 1337 },
+  { id: "2", name: "Toilet 2", ticker: "NFB·2", designation: `${VENUE} · Floor 3 · by the door`, base: 4.2, vol: 0.78, min: 1.5, max: 9, seed: 7331 },
 ];
 
 /** A live, metered occupation of a stall by the current member. */

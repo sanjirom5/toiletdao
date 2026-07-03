@@ -30,6 +30,13 @@ export default function MarketBoard({
     <div className="market-shell">
       {!headless && (
         <div className="market-head">
+          <img
+            className="market-logo"
+            src="/nfactorial.png"
+            alt="nFactorial"
+            width={64}
+            height={64}
+          />
           <span className="eyebrow">{eyebrow}</span>
           <h2 className="market-title">{title}</h2>
           <div className={`surge-flag ${p.rush ? "on" : ""}`} aria-live="polite">

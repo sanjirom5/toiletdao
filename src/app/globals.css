@@ -1313,6 +1313,16 @@ a {
   opacity: 1;
 }
 
+/* market venue logo */
+.market-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: block;
+  margin-bottom: 20px;
+  box-shadow: 0 0 0 1px var(--hair-strong), 0 12px 30px -12px rgba(225, 29, 46, 0.45);
+}
+
 /* skip link */
 .skip-link {
   position: absolute;
