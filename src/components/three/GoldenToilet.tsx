@@ -7,12 +7,12 @@ import { RoundedBox } from "@react-three/drei";
 const GOLD = "#f2d477";
 const GOLD_DEEP = "#c79a35";
 
-function goldProps(roughness = 0.14): THREE.MeshStandardMaterialParameters {
+function goldProps(roughness = 0.3): THREE.MeshStandardMaterialParameters {
   return {
     color: GOLD,
     metalness: 1,
     roughness,
-    envMapIntensity: 2.6,
+    envMapIntensity: 1.7,
   };
 }
 
@@ -63,41 +63,41 @@ export default function GoldenToilet({
     <group>
       {/* one-piece skirted body + bowl cavity, made slightly oval */}
       <mesh geometry={body} scale={[1, 1, 1.2]} castShadow receiveShadow>
-        <meshStandardMaterial {...goldProps(0.12)} side={THREE.DoubleSide} />
+        <meshStandardMaterial {...goldProps(0.28)} side={THREE.DoubleSide} />
       </mesh>
 
-      {/* cistern / tank */}
+      {/* cistern / tank — tall, like the reference */}
       <RoundedBox
-        args={[1.16, 1.2, 0.62]}
+        args={[1.16, 1.7, 0.62]}
         radius={0.1}
         smoothness={6}
-        position={[0, 1.5, -0.62]}
+        position={[0, 1.75, -0.62]}
         scale={[1, 1, 1]}
       >
-        <meshStandardMaterial {...goldProps(0.15)} />
+        <meshStandardMaterial {...goldProps(0.32)} />
       </RoundedBox>
       {/* tank lid */}
-      <RoundedBox args={[1.24, 0.16, 0.72]} radius={0.06} smoothness={5} position={[0, 2.16, -0.62]}>
-        <meshStandardMaterial {...goldProps(0.13)} />
+      <RoundedBox args={[1.24, 0.16, 0.72]} radius={0.06} smoothness={5} position={[0, 2.66, -0.62]}>
+        <meshStandardMaterial {...goldProps(0.3)} />
       </RoundedBox>
       {/* flush button */}
-      <mesh position={[0, 2.26, -0.62]} rotation={[0, 0, 0]}>
+      <mesh position={[0, 2.76, -0.62]} rotation={[0, 0, 0]}>
         <cylinderGeometry args={[0.09, 0.09, 0.05, 32]} />
-        <meshStandardMaterial color={GOLD_DEEP} metalness={1} roughness={0.25} envMapIntensity={1.4} />
+        <meshStandardMaterial color={GOLD_DEEP} metalness={1} roughness={0.38} envMapIntensity={1.2} />
       </mesh>
 
       {/* seat ring at the rim (flat oval torus) */}
       <mesh position={[0, 1.78, 0.02]} rotation={[Math.PI / 2, 0, 0]} scale={[1, 1.2, 1]}>
         <torusGeometry args={[0.54, 0.06, 20, 90]} />
-        <meshStandardMaterial {...goldProps(0.18)} />
+        <meshStandardMaterial {...goldProps(0.34)} />
       </mesh>
 
       {/* hinged lid — group pivots at the back rim, tips up as lidOpen → 1 */}
-      <group ref={lidGroupRef} position={[0, 1.82, -0.5]} rotation={[lidAngle, 0, 0]}>
+      <group ref={lidGroupRef} position={[0, 1.84, -0.42]} rotation={[lidAngle, 0, 0]}>
         {/* flattened dome ellipsoid reads as a toilet lid */}
         <mesh position={[0, 0.05, 0.6]} scale={[0.92, 0.17, 1.02]} castShadow>
           <sphereGeometry args={[0.62, 56, 36]} />
-          <meshStandardMaterial {...goldProps(0.1)} />
+          <meshStandardMaterial {...goldProps(0.26)} />
         </mesh>
       </group>
     </group>

@@ -34,7 +34,8 @@ function Rig({
     if (lidRef.current) {
       const lo = clamp01((p - 0.5) / 0.3);
       const eased = lo * lo * (3 - 2 * lo);
-      lidRef.current.rotation.x = lerp(lidRef.current.rotation.x, -eased * 2.05, 0.16);
+      // cap short of vertical so the open lid rests against the tall cistern
+      lidRef.current.rotation.x = lerp(lidRef.current.rotation.x, -eased * 1.42, 0.16);
     }
 
     // --- camera: orbit → approach → dive into the bowl ---
@@ -50,20 +51,20 @@ function Rig({
     } else if (p < 0.82) {
       const a = (p - 0.5) / 0.32;
       cx = lerp(Math.sin(0.9) * 1.1, 0, a);
-      cy = lerp(1.6, 2.35, a);
-      cz = lerp(4.8, 1.5, a);
+      cy = lerp(1.55, 2.3, a);
+      cz = lerp(4.8, 1.9, a);
       lx = 0;
-      ly = lerp(1.04, 1.58, a);
-      lz = 0;
+      ly = lerp(1.0, 0.85, a); // keep the bowl framed, not the tank
+      lz = 0.2;
     } else {
       const a = clamp01((p - 0.82) / 0.18);
       const e = a * a;
       cx = 0;
-      cy = lerp(2.35, 0.55, e); // descend down into the bowl
-      cz = lerp(1.5, 0.0, e);
+      cy = lerp(2.3, 0.42, e); // descend down into the bowl
+      cz = lerp(1.9, 0.05, e);
       lx = 0;
-      ly = lerp(1.58, -0.25, e); // look down into the gold cavity
-      lz = 0;
+      ly = lerp(0.85, -0.35, e); // look down into the gold cavity
+      lz = lerp(0.2, 0, e);
     }
 
     target.current.set(cx, cy, cz);
@@ -94,7 +95,7 @@ export default function ToiletScene({ progressRef }: { progressRef: RefObject<nu
       <pointLight position={[0, 3, 6]} intensity={2.2} color="#ffe9bd" />
       <pointLight position={[-5, 2, 3]} intensity={1.2} color="#e8c25a" />
 
-      <group ref={spinRef} position={[0, -0.92, 0]}>
+      <group ref={spinRef} position={[0, -1.06, 0]} scale={0.92}>
         <GoldenToilet lidGroupRef={lidRef} />
       </group>
 
@@ -105,7 +106,7 @@ export default function ToiletScene({ progressRef }: { progressRef: RefObject<nu
         <Lightformer form="rect" intensity={4} color="#f2d477" position={[-6, 1.5, 3]} scale={[4, 7, 1]} rotation={[0, Math.PI / 3, 0]} />
         <Lightformer form="ring" intensity={3} color="#ffffff" position={[0, 3, -5]} scale={5} />
         <Lightformer form="rect" intensity={2.4} color="#fff0cf" position={[0, 1, 6]} scale={[6, 5, 1]} />
-        <Lightformer form="rect" intensity={0.7} color="#8a2a38" position={[-3, -2, 3]} scale={[5, 3, 1]} rotation={[Math.PI / 2, 0, 0]} />
+        <Lightformer form="rect" intensity={0.3} color="#8a2a38" position={[-3, -2, 3]} scale={[4, 2, 1]} rotation={[Math.PI / 2, 0, 0]} />
       </Environment>
 
       <Rig progressRef={progressRef} spinRef={spinRef} lidRef={lidRef} />
