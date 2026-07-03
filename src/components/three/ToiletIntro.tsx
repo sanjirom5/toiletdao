@@ -59,17 +59,14 @@ export default function ToiletIntro() {
     return (
       <section className="intro-fallback">
         <div className="intro-fallback-inner">
-          <span className="eyebrow centered">A ToiletDAO Institution</span>
+          <span className="eyebrow centered">The porcelain standard</span>
           <div className="intro-fallback-emblem" aria-hidden="true">
             ⚜
           </div>
-          <h1 className="intro-fallback-title">
-            WC<span>.exit</span>
-          </h1>
-          <p className="intro-fallback-sub">The private exchange for restroom access.</p>
-          <a className="btn btn-quiet" href="#enter">
-            Enter
-          </a>
+          <h2 className="intro-fallback-title">
+            Behold the <span>instrument</span>.
+          </h2>
+          <p className="intro-fallback-sub">Cast in gold. Priced to the minute.</p>
         </div>
       </section>
     );
@@ -83,15 +80,15 @@ export default function ToiletIntro() {
         </div>
 
         <div className="intro-title" ref={titleRef}>
-          <span className="eyebrow centered">A ToiletDAO Institution</span>
-          <h1 className="intro-wordmark">
-            WC<span>.exit</span>
-          </h1>
-          <p className="intro-sub">The private exchange for the moment that will not wait.</p>
+          <span className="eyebrow centered">The porcelain standard</span>
+          <h2 className="intro-wordmark">
+            Behold the <span>instrument</span>.
+          </h2>
+          <p className="intro-sub">Cast in gold. Priced to the minute.</p>
         </div>
 
         <div className="intro-hint" ref={hintRef} aria-hidden="true">
-          <span>Scroll to enter</span>
+          <span>Scroll to enter the estate</span>
           <span className="intro-hint-line" />
         </div>
 

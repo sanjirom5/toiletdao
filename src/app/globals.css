@@ -1290,21 +1290,23 @@ a {
    LOGOS3 wrapper — tunes the stock component to the luxe register
    ============================================================ */
 .logos-wrap section {
-  padding-block: clamp(48px, 7vw, 80px);
+  padding-block: clamp(44px, 6vw, 72px);
   border-top: 1px solid var(--hair);
   border-bottom: 1px solid var(--hair);
 }
+/* heading recedes; the marks carry the moment */
 .logos-wrap h1 {
-  font-family: var(--font-display);
+  font-family: var(--font-mono);
   font-weight: 400;
-  font-style: italic;
-  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
-  color: var(--ivory-dim);
-  letter-spacing: 0;
-  max-width: 34ch;
+  font-style: normal;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--stone-dim);
+  max-width: none;
 }
 .logos-wrap img {
-  opacity: 0.75;
+  opacity: 0.95;
   transition: opacity var(--slow) var(--ease);
 }
 .logos-wrap img:hover {
@@ -1782,22 +1784,22 @@ a {
 }
 .intro-title {
   position: absolute;
-  top: 7%;
+  top: 17%;
   left: 0;
   right: 0;
   text-align: center;
   pointer-events: none;
   display: grid;
-  gap: 16px;
+  gap: 14px;
   justify-items: center;
   padding-inline: 24px;
   will-change: opacity, transform;
 }
 .intro-wordmark {
   font-family: var(--font-display);
-  font-weight: 360;
-  font-size: clamp(3rem, 9vw, 7rem);
-  letter-spacing: -0.02em;
+  font-weight: 380;
+  font-size: clamp(2rem, 4.6vw, 3.4rem);
+  letter-spacing: -0.015em;
   color: var(--ivory);
   line-height: 1;
 }
@@ -1864,7 +1866,7 @@ a {
 
 /* static fallback (reduced motion / no WebGL / SSR) */
 .intro-fallback {
-  min-height: 92vh;
+  min-height: 64vh;
   display: grid;
   place-items: center;
   background:

@@ -4,13 +4,20 @@ import SiteNav from "@/components/SiteNav";
 import { Logos3 } from "@/components/ui/logos3";
 
 // Brand marks tinted to the house gold via the simpleicons color path.
-const pressLogos = [
-  { id: "logo-1", description: "Google", image: "https://cdn.simpleicons.org/google/C9A24B", className: "h-7 w-auto" },
-  { id: "logo-2", description: "Meta", image: "https://cdn.simpleicons.org/meta/C9A24B", className: "h-7 w-auto" },
-  { id: "logo-3", description: "Uber", image: "https://cdn.simpleicons.org/uber/C9A24B", className: "h-7 w-auto" },
-  { id: "logo-4", description: "Apple", image: "https://cdn.simpleicons.org/apple/C9A24B", className: "h-7 w-auto" },
-  { id: "logo-5", description: "Netflix", image: "https://cdn.simpleicons.org/netflix/C9A24B", className: "h-7 w-auto" },
+// Doubled so the loop always overflows the viewport and auto-scroll never stalls.
+const brandMarks = [
+  { key: "google", description: "Google" },
+  { key: "meta", description: "Meta" },
+  { key: "uber", description: "Uber" },
+  { key: "apple", description: "Apple" },
+  { key: "netflix", description: "Netflix" },
 ];
+const pressLogos = [...brandMarks, ...brandMarks].map((b, i) => ({
+  id: `logo-${i}`,
+  description: b.description,
+  image: `https://cdn.simpleicons.org/${b.key}/C9A24B`,
+  className: "h-10 w-auto",
+}));
 import EstateStrip from "@/components/EstateStrip";
 import BookingDesk from "@/components/BookingDesk";
 import MemberLedger from "@/components/MemberLedger";
@@ -22,8 +29,6 @@ export default function Home() {
       <a className="skip-link" href="#top">
         Skip to content
       </a>
-      <ToiletIntro />
-      <div id="enter" />
       <Ticker />
       <SiteNav />
 
@@ -60,6 +65,10 @@ export default function Home() {
             logos={pressLogos}
           />
         </div>
+
+        {/* ---------------- 3D INTRO — descend into the estate ---------------- */}
+        <ToiletIntro />
+        <div id="enter" />
 
         {/* ---------------- ESTATE ---------------- */}
         <section className="section" id="estate" style={{ paddingBlock: "clamp(56px,8vw,96px)" }}>

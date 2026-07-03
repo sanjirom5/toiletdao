@@ -61,11 +61,18 @@ export function usePlatform() {
     const views: StallView[] = STALLS.map((cfg) => {
       const sim = simRef.current[cfg.id];
       const isMine = !!occ && occ.stall === cfg.id;
+      const otherId: StallId = cfg.id === "1" ? "2" : "1";
 
-      // schedule a fresh simulated-member occupancy on stalls the user isn't in
+      // schedule a simulated-member occupancy on stalls the user isn't in — but
+      // never let both stalls be busy at once, so at least one stays reservable.
       if (!isMine && t >= sim.next) {
-        sim.until = t + SIM_MIN_MS + Math.floor(rand.current() * SIM_VAR_MS);
-        sim.next = sim.until + 40_000 + Math.floor(rand.current() * 60_000);
+        const otherBusy = simRef.current[otherId].until > t;
+        if (otherBusy) {
+          sim.next = t + 3_000; // other stall is taken; try again shortly
+        } else {
+          sim.until = t + SIM_MIN_MS + Math.floor(rand.current() * SIM_VAR_MS);
+          sim.next = sim.until + 40_000 + Math.floor(rand.current() * 60_000);
+        }
       }
       const simActive = !isMine && t < sim.until;
       const occupied = isMine || simActive;

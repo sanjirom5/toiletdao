@@ -39,7 +39,18 @@ const Logos3 = ({
       </div>
       <div className="pt-10 md:pt-16 lg:pt-20">
         <div className="relative mx-auto flex items-center justify-center lg:max-w-5xl">
-          <Carousel opts={{ loop: true }} plugins={[AutoScroll({ playOnInit: true })]}>
+          <Carousel
+            opts={{ loop: true }}
+            plugins={[
+              AutoScroll({
+                playOnInit: true,
+                speed: 0.9,
+                stopOnInteraction: false,
+                stopOnMouseEnter: false,
+                stopOnFocusIn: false,
+              }),
+            ]}
+          >
             <CarouselContent className="ml-0">
               {logos.map((logo) => (
                 <CarouselItem
