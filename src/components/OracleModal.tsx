@@ -14,6 +14,7 @@ interface Quote {
 }
 
 const BASE = 4;
+const TAKE = 0.12; // house commission on every settlement
 
 const EXAMPLES = [
   "Съел шаурму за 300 тенге 20 минут назад",
@@ -21,7 +22,8 @@ const EXAMPLES = [
   "Всё спокойно, просто планирую день",
 ];
 
-export default function Oracle() {
+export default function OracleModal() {
+  const [open, setOpen] = useState(false);
   const [situation, setSituation] = useState("");
   const [loading, setLoading] = useState(false);
   const [quote, setQuote] = useState<Quote | null>(null);
@@ -50,12 +52,31 @@ export default function Oracle() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [quote]);
 
+  // Close on Escape while open.
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  function launch() {
+    setSituation("");
+    setQuote(null);
+    setError(null);
+    setShown(BASE);
+    setOpen(true);
+  }
+
   async function appraise() {
     const text = situation.trim();
     if (!text || loading) return;
     setLoading(true);
     setError(null);
     setShown(BASE);
+    setQuote(null);
     try {
       const res = await fetch("/api/oracle", {
         method: "POST",
@@ -65,34 +86,44 @@ export default function Oracle() {
       const data = await res.json();
       if (!res.ok) {
         setError(data?.error ?? "The desk is unavailable.");
-        setQuote(null);
       } else {
         setQuote(data as Quote);
       }
     } catch {
       setError("The desk is unavailable. Try again.");
-      setQuote(null);
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <section className="section" id="oracle" style={{ paddingTop: 0 }}>
-      <div className="container">
-        <div className="section-head">
-          <span className="eyebrow">The Oracle</span>
-          <h2 className="display-title">
-            Price your <em>urgency</em>.
-          </h2>
-          <p className="lede">
-            Describe your situation. Our appraisal engine reads it, quantifies your demand, and
-            revalues access in real time. Candour is efficient — the book compensates it.
-          </p>
-        </div>
+    <>
+      <button className="btn btn-solid oracle-launch" onClick={launch}>
+        Describe your situation
+      </button>
 
-        <div className="oracle-panel">
-          <div className="oracle-form">
+      {open && (
+        <div
+          className="name-overlay oracle-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="The Oracle"
+          onClick={() => setOpen(false)}
+        >
+          <div className="name-card oracle-card" onClick={(e) => e.stopPropagation()}>
+            <button className="oracle-close" onClick={() => setOpen(false)} aria-label="Close">
+              ×
+            </button>
+
+            <span className="eyebrow centered">The Oracle</span>
+            <h2 className="name-title">
+              Describe your <em>situation</em>.
+            </h2>
+            <p className="name-sub">
+              The desk reads it, quantifies your demand, and quotes your access — to the cent.
+              Candour is efficient.
+            </p>
+
             <textarea
               className="pf-input oracle-textarea"
               value={situation}
@@ -104,7 +135,9 @@ export default function Oracle() {
               aria-label="Describe your situation"
               maxLength={600}
               rows={3}
+              autoFocus
             />
+
             <div className="oracle-examples">
               {EXAMPLES.map((ex) => (
                 <button
@@ -118,6 +151,7 @@ export default function Oracle() {
                 </button>
               ))}
             </div>
+
             <button
               className="btn btn-solid"
               onClick={appraise}
@@ -126,18 +160,17 @@ export default function Oracle() {
             >
               {loading ? "Appraising…" : "Get quoted"}
             </button>
+
             {error && <p className="oracle-error mono">{error}</p>}
-          </div>
 
-          <div className={`oracle-result ${quote ? "on" : ""}`} aria-live="polite">
-            <div className="oracle-quote">
-              <span className="oracle-base mono">Base {money(BASE)}</span>
-              <span className="oracle-figure mono">{money(shown)}</span>
-              <span className="oracle-unit">your access, quoted</span>
-            </div>
+            {quote && (
+              <div className="oracle-result on" aria-live="polite" style={{ width: "100%" }}>
+                <div className="oracle-quote">
+                  <span className="oracle-base mono">Base {money(BASE)}</span>
+                  <span className="oracle-figure mono">{money(shown)}</span>
+                  <span className="oracle-unit">your access, quoted</span>
+                </div>
 
-            {quote ? (
-              <>
                 <div className="oracle-badges">
                   <span className="oracle-mult mono">×{quote.multiplier.toFixed(2)} revaluation</span>
                   <span className="oracle-demand mono">Demand {quote.demand}/100</span>
@@ -145,6 +178,11 @@ export default function Oracle() {
 
                 <div className="oracle-meter" aria-hidden="true">
                   <div className="oracle-meter-fill" style={{ width: `${quote.demand}%` }} />
+                </div>
+
+                <div className="oracle-take">
+                  <span className="oracle-take-k mono">FlushPass commission · 12%</span>
+                  <span className="oracle-take-v mono">{money(quote.price * TAKE)} to the house</span>
                 </div>
 
                 <p className="oracle-verdict">{quote.verdict}</p>
@@ -163,15 +201,11 @@ export default function Oracle() {
                   Appraised by {quote.source === "model" ? "the Oracle (GPT-4o-mini)" : "the Oracle (offline desk)"} ·
                   indicative · settles T+0 · non-refundable
                 </p>
-              </>
-            ) : (
-              <p className="oracle-placeholder mono">
-                Awaiting disclosure. The book will revalue on submission.
-              </p>
+              </div>
             )}
           </div>
         </div>
-      </div>
-    </section>
+      )}
+    </>
   );
 }

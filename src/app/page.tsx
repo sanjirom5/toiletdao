@@ -19,8 +19,8 @@ const pressLogos = [...brandMarks, ...brandMarks].map((b, i) => ({
   className: "h-14 w-auto",
 }));
 import MarketBoard from "@/components/market/MarketBoard";
-import Oracle from "@/components/Oracle";
-import { hero, doctrine, membership, faq, footer, brand } from "@/lib/copy";
+import OracleModal from "@/components/OracleModal";
+import { hero, doctrine, economics, faq, footer, brand } from "@/lib/copy";
 
 export default function Home() {
   return (
@@ -45,7 +45,7 @@ export default function Home() {
               <a className="btn btn-solid" href="#market">
                 {hero.primary}
               </a>
-              <a className="btn btn-quiet" href="#membership">
+              <a className="btn btn-quiet" href="#economics">
                 {hero.secondary}
               </a>
             </div>
@@ -76,8 +76,23 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ---------------- THE ORACLE — AI urgency pricing ---------------- */}
-        <Oracle />
+        {/* ---------------- THE ORACLE — AI urgency pricing (modal) ---------------- */}
+        <section className="section" id="oracle" style={{ paddingTop: 0 }}>
+          <div className="container">
+            <div className="section-head">
+              <span className="eyebrow">The Oracle</span>
+              <h2 className="display-title">
+                Price your <em>urgency</em>.
+              </h2>
+              <p className="lede">
+                State your situation and the desk quotes your access in real time. Our appraisal
+                engine reads it, quantifies your demand, and revalues to the cent. Candour is
+                efficient — the book compensates it.
+              </p>
+            </div>
+            <OracleModal />
+          </div>
+        </section>
 
         {/* ---------------- DOCTRINE ---------------- */}
         <section className="section" id="doctrine" style={{ paddingTop: 0 }}>
@@ -100,36 +115,30 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ---------------- MEMBERSHIP ---------------- */}
-        <section className="section" id="membership" style={{ paddingTop: 0 }}>
+        {/* ---------------- ECONOMICS — the house take ---------------- */}
+        <section className="section" id="economics" style={{ paddingTop: 0 }}>
           <div className="container">
             <div className="section-head">
-              <span className="eyebrow">{membership.eyebrow}</span>
-              <h2 className="display-title">{membership.heading}</h2>
-              <p className="lede">{membership.lede}</p>
+              <span className="eyebrow">{economics.eyebrow}</span>
+              <h2 className="display-title">{economics.heading}</h2>
+              <p className="lede">{economics.lede}</p>
             </div>
           </div>
           <div className="container">
-            <div className="tiers">
-              {membership.tiers.map((t) => (
-                <div className={`tier ${t.featured ? "feature" : ""}`} key={t.name}>
-                  <div className="tier-rank">{t.rank}</div>
-                  <div className="tier-name">{t.name}</div>
-                  <div className="tier-price">
-                    <b>{t.price}</b>
-                    {t.priceNote ? ` · ${t.priceNote}` : ""}
+            <div className="economics">
+              <div className="take-hero">
+                <div className="take-figure mono">{economics.take.rate}</div>
+                <div className="take-label">{economics.take.label}</div>
+              </div>
+              <div className="fee-table">
+                {economics.rows.map((r) => (
+                  <div className="fee-row" key={r.k}>
+                    <span className="fee-k">{r.k}</span>
+                    <span className="fee-v mono">{r.v}</span>
+                    <span className="fee-note">{r.note}</span>
                   </div>
-                  <p className="tier-desc">{t.desc}</p>
-                  <ul className="tier-list">
-                    {t.features.map((f) => (
-                      <li key={f}>{f}</li>
-                    ))}
-                  </ul>
-                  <a className={`btn ${t.featured ? "btn-solid" : "btn-quiet"}`} href="#market">
-                    {t.cta}
-                  </a>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
             <p
               className="mono"
@@ -141,7 +150,7 @@ export default function Home() {
                 color: "var(--stone)",
               }}
             >
-              {membership.note}
+              {economics.note}
             </p>
           </div>
         </section>

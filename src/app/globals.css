@@ -2440,3 +2440,137 @@ a {
   color: var(--stone-dim);
   line-height: 1.6;
 }
+
+/* ============================================================
+   ECONOMICS — the house take
+   ============================================================ */
+.economics {
+  display: grid;
+  grid-template-columns: 0.9fr 1.4fr;
+  gap: 40px;
+  align-items: center;
+}
+@media (max-width: 860px) {
+  .economics {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+.take-hero {
+  border: 1px solid var(--hair-strong);
+  background: linear-gradient(180deg, var(--obsidian-3), var(--obsidian-2));
+  padding: 44px 36px;
+  text-align: center;
+}
+.take-figure {
+  font-size: clamp(3.6rem, 9vw, 5.4rem);
+  line-height: 1;
+  color: var(--gold-bright);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+.take-label {
+  margin-top: 14px;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone);
+  line-height: 1.5;
+}
+.fee-table {
+  display: grid;
+}
+.fee-row {
+  display: grid;
+  grid-template-columns: auto 90px;
+  grid-template-areas: "k v" "note note";
+  gap: 4px 16px;
+  padding: 20px 0;
+  border-top: 1px solid var(--hair);
+}
+.fee-row:last-child {
+  border-bottom: 1px solid var(--hair);
+}
+.fee-k {
+  grid-area: k;
+  font-family: var(--font-display);
+  font-size: 1.14rem;
+  color: var(--ivory);
+}
+.fee-v {
+  grid-area: v;
+  text-align: right;
+  font-size: 1.14rem;
+  color: var(--gold);
+  font-weight: 500;
+}
+.fee-note {
+  grid-area: note;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--stone);
+  max-width: 56ch;
+}
+
+/* Oracle — house commission line */
+.oracle-take {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--hair-strong);
+  background: var(--obsidian);
+}
+.oracle-take-k {
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.oracle-take-v {
+  font-size: 0.82rem;
+  color: var(--gold-bright);
+  font-weight: 500;
+}
+
+/* Oracle — modal presentation overrides */
+.oracle-launch {
+  margin-top: 4px;
+}
+.oracle-card {
+  max-width: 560px;
+  justify-items: stretch;
+  text-align: left;
+  position: relative;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+.oracle-card .eyebrow.centered,
+.oracle-card .name-title,
+.oracle-card .name-sub {
+  justify-self: center;
+  text-align: center;
+}
+.oracle-card .name-sub {
+  max-width: 46ch;
+}
+.oracle-card .oracle-textarea {
+  width: 100%;
+}
+.oracle-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  color: var(--stone);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color var(--slow) var(--ease);
+}
+.oracle-close:hover {
+  color: var(--gold);
+}

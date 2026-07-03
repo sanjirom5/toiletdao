@@ -11,7 +11,7 @@ export const hero = {
   headlineEm: "will not wait",
   tag: "FlushPass provides members with priced, guaranteed access to a limited estate of two cabins. Liquidity is continuous; pricing is dynamic; settlement is immediate. We do not sell convenience — we price certainty.",
   primary: "Reserve access",
-  secondary: "Request membership",
+  secondary: "How the house earns",
   assurances: ["Settlement · T+0", "Estate · 2 cabins", "Access · by tier"],
 } as const;
 
@@ -108,6 +108,23 @@ export const membership = {
   note: "Deferred settlement provided by Toilet Klarna. Financing subject to standing.",
 } as const;
 
+export const economics = {
+  eyebrow: "The Model",
+  heading: "We never hold a position. We keep the take.",
+  lede: "FlushPass earns nothing from the estate and nothing from a subscription. We earn a commission on every settlement the book clears. We do not own the cabins, and we never sit in one — we clear the trade and keep the spread. Volume is the product; certainty is merely the bait.",
+  take: {
+    rate: "12%",
+    label: "House commission · levied on every settlement",
+  },
+  rows: [
+    { k: "Standard settlement", v: "12%", note: "Taken from every cleared slot, buy-side, at the point of access." },
+    { k: "Surge settlement", v: "18%", note: "The house takes more precisely when you need it more." },
+    { k: "Deferred (Toilet Klarna)", v: "+5%", note: "A financing spread on every position held to settlement." },
+    { k: "Secondary resale", v: "3% × 2", note: "Both sides of every resale. We clear the buyer and the seller." },
+  ],
+  note: "Commissions are non-negotiable and settle T+0. The house is always liquid, never seated.",
+} as const;
+
 export const faq = {
   eyebrow: "Enquiries",
   heading: "For those conducting due diligence.",
@@ -143,7 +160,7 @@ export const footer = {
   tagline: "We do not sell restroom access. We price the certainty of it.",
   columns: [
     { title: "The Estate", links: ["Toilet 1", "Toilet 2", "The order book", "Occupancy"] },
-    { title: "Membership", links: ["Founding Member", "Private", "Sovereign", "Concierge"] },
+    { title: "Economics", links: ["The take", "Fee schedule", "Surge policy", "Settlement"] },
     { title: "Institution", links: ["Doctrine", "Governance", "Careers", "Press"] },
     { title: "Legal", links: ["Privacy", "Terms", "Risk disclosure", "Toilet Score"] },
   ],

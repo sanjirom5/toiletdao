@@ -7,7 +7,7 @@ import { useWallet } from "@/lib/useWallet";
 const LINKS = [
   { label: "The Market", href: "#market" },
   { label: "Doctrine", href: "#doctrine" },
-  { label: "Membership", href: "#membership" },
+  { label: "Economics", href: "#economics" },
   { label: "Terminal", href: "/reserve" },
 ];
 
