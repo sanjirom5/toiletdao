@@ -1,69 +1,62 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const display = Archivo({
+const display = Fraunces({
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  style: ["normal", "italic"],
   variable: "--font-display",
   display: "swap",
 });
 
-const body = IBM_Plex_Sans({
+const body = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   variable: "--font-body",
   display: "swap",
 });
 
 const mono = IBM_Plex_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
   variable: "--font-mono",
   display: "swap",
 });
 
-const SITE_URL = "https://toiletdao.exchange";
+const SITE_URL = "https://wc.exchange";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "ToiletDAO — The Occupancy Exchange",
+  title: "WC.exit — The Private Exchange for Restroom Access",
   description:
-    "A dynamic exchange for restroom access. Real-time price discovery, on-chain settlement, and a full derivatives stack on the one resource you can't postpone.",
+    "ToiletDAO operates a dynamic exchange for restroom access. Real-time liquidity, dynamic revaluation, and members-only settlement across a limited estate of two cabins.",
   keywords: [
     "ToiletDAO",
     "WC.exit",
-    "occupancy exchange",
-    "restroom derivatives",
-    "surge pricing",
-    "markets of inevitability",
+    "restroom access exchange",
+    "dynamic pricing",
+    "private membership",
+    "surge",
   ],
   authors: [{ name: "ToiletDAO" }],
   openGraph: {
-    title: "ToiletDAO — The Occupancy Exchange",
+    title: "WC.exit — The Private Exchange for Restroom Access",
     description:
-      "We tokenized the one resource you can't postpone. Real-time price discovery for restroom access, settled T+0.",
+      "A dynamic exchange for restroom access. Real-time liquidity. Dynamic revaluation. Settlement for members only.",
     url: SITE_URL,
-    siteName: "ToiletDAO",
+    siteName: "WC.exit",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ToiletDAO — The Occupancy Exchange",
-    description:
-      "We tokenized the one resource you can't postpone. Settlement T+0.",
+    title: "WC.exit — The Private Exchange for Restroom Access",
+    description: "Real-time liquidity. Dynamic revaluation. Settlement for members only.",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#EEF1F2" },
-    { media: "(prefers-color-scheme: dark)", color: "#0B1013" },
-  ],
+  themeColor: "#0B0C0E",
+  colorScheme: "dark",
 };
-
-// Apply the stored theme before paint to avoid a flash.
-const themeScript = `(function(){try{var t=localStorage.getItem('wc-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`;
 
 export default function RootLayout({
   children,
@@ -74,11 +67,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${display.variable} ${body.variable} ${mono.variable}`}
-      suppressHydrationWarning
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
       <body>{children}</body>
     </html>
   );

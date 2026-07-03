@@ -1,40 +1,9 @@
-import SurgeTape from "@/components/SurgeTape";
+import Ticker from "@/components/Ticker";
 import SiteNav from "@/components/SiteNav";
-import ToiletTerminal from "@/components/ToiletTerminal";
-import OccupancyMap from "@/components/OccupancyMap";
-import PricingCurve from "@/components/PricingCurve";
-import LiveValue from "@/components/LiveValue";
-import Reveal from "@/components/Reveal";
-import {
-  brand,
-  hero,
-  featuredIn,
-  metrics,
-  problem,
-  howItWorks,
-  occupancy,
-  derivatives,
-  economics,
-  token,
-  pricing,
-  testimonials,
-  status,
-  faq,
-  footer,
-} from "@/lib/copy";
-
-// Faux-logo styling so the press bar reads as distinct lockups, not a word list.
-const pressStyles: React.CSSProperties[] = [
-  { fontWeight: 800, letterSpacing: "-0.04em" },
-  { fontWeight: 500, fontStyle: "italic", letterSpacing: "0" },
-  { fontWeight: 700, fontFamily: "var(--font-mono)", letterSpacing: "-0.02em" },
-  { fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", fontSize: "0.9rem" },
-  { fontWeight: 800, letterSpacing: "-0.02em" },
-  { fontWeight: 500, fontFamily: "var(--font-mono)", letterSpacing: "0" },
-];
-
-// Allocation segment colors — deliberately no vermilion (it stays rationed to prices).
-const allocColors = ["var(--teal)", "var(--amber)", "var(--chrome)", "rgba(255,255,255,0.34)"];
+import EstateStrip from "@/components/EstateStrip";
+import BookingDesk from "@/components/BookingDesk";
+import MemberLedger from "@/components/MemberLedger";
+import { hero, estate, desk, doctrine, membership, faq, footer, brand } from "@/lib/copy";
 
 export default function Home() {
   return (
@@ -42,406 +11,149 @@ export default function Home() {
       <a className="skip-link" href="#top">
         Skip to content
       </a>
-      <SurgeTape />
+      <Ticker />
       <SiteNav />
 
       <main id="top">
         {/* ---------------- HERO ---------------- */}
         <section className="hero">
-          <div className="container hero-grid">
-            <div className="hero-copy">
-              <span className="hero-eyebrow mono">
-                <span className="dot" />
-                {hero.eyebrow}
-              </span>
-              <h1>{hero.headline}</h1>
-              <p className="hero-sub">{hero.subhead}</p>
-              <div className="hero-cta">
-                <a className="btn btn-primary" href="#pricing">
-                  {hero.primaryCta}
-                </a>
-                <a className="btn btn-ghost" href="#token">
-                  {hero.secondaryCta}
-                </a>
-              </div>
-              <span className="hero-note mono">
-                <span className="dot" />
-                {hero.ticker}
-              </span>
+          <div className="container hero-inner">
+            <span className="eyebrow centered">{hero.eyebrow}</span>
+            <h1>
+              {hero.headlineLead}
+              <em>{hero.headlineEm}</em>.
+            </h1>
+            <p className="hero-tag">{hero.tag}</p>
+            <div className="hero-cta">
+              <a className="btn btn-solid" href="#desk">
+                {hero.primary}
+              </a>
+              <a className="btn btn-quiet" href="#membership">
+                {hero.secondary}
+              </a>
             </div>
-            <div className="hero-terminal-wrap">
-              <ToiletTerminal />
+            <div className="hero-assurances">
+              {hero.assurances.map((a) => (
+                <span key={a}>{a}</span>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* ---------------- FEATURED IN ---------------- */}
-        <div className="featured">
-          <div className="container featured-inner">
-            <span className="featured-label">As featured in</span>
-            {featuredIn.map((f, i) => (
-              <span className="featured-logo" key={f} style={pressStyles[i % pressStyles.length]}>
-                {f}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* ---------------- METRICS ---------------- */}
-        <section className="section" style={{ paddingBlock: "clamp(48px,7vw,88px)" }}>
+        {/* ---------------- ESTATE ---------------- */}
+        <section className="section" id="estate" style={{ paddingBlock: "clamp(56px,8vw,96px)" }}>
           <div className="container">
-            <Reveal className="metrics">
-              {metrics.map((m) => (
-                <div className="metric" key={m.label}>
-                  <div className={`metric-value ${m.value.startsWith("+") ? "metric-up" : ""}`}>
-                    {m.value}
-                    {m.unit && <span className="unit">{m.unit}</span>}
-                  </div>
-                  <div className="metric-label">{m.label}</div>
+            <div className="section-head">
+              <span className="eyebrow">{estate.eyebrow}</span>
+              <h2 className="display-title">{estate.heading}</h2>
+              <p className="lede">{estate.lede}</p>
+            </div>
+          </div>
+          <EstateStrip />
+        </section>
+
+        {/* ---------------- THE DESK ---------------- */}
+        <section className="section" id="desk" style={{ paddingTop: 0 }}>
+          <div className="container">
+            <div className="section-head">
+              <span className="eyebrow">{desk.eyebrow}</span>
+              <h2 className="display-title">{desk.heading}</h2>
+              <p className="lede">{desk.lede}</p>
+            </div>
+            <BookingDesk />
+            <div style={{ height: 20 }} />
+            <MemberLedger />
+          </div>
+        </section>
+
+        {/* ---------------- DOCTRINE ---------------- */}
+        <section className="section" id="doctrine" style={{ paddingTop: 0 }}>
+          <div className="container">
+            <div className="section-head">
+              <span className="eyebrow">{doctrine.eyebrow}</span>
+              <h2 className="display-title">{doctrine.heading}</h2>
+            </div>
+          </div>
+          <div className="container">
+            <div className="doctrine">
+              {doctrine.columns.map((c) => (
+                <div className="doctrine-col" key={c.n}>
+                  <div className="doctrine-n">{c.n}</div>
+                  <h3 className="doctrine-h">{c.h}</h3>
+                  <p className="doctrine-p">{c.p}</p>
                 </div>
               ))}
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ---------------- PROBLEM ---------------- */}
-        <section className="section" style={{ background: "var(--surface)", borderBlock: "1px solid var(--hair)" }}>
-          <div className="container problem-grid">
-            <Reveal>
-              <span className="eyebrow">{problem.eyebrow}</span>
-              <h2 className="problem-heading">{problem.heading}</h2>
-              <p className="problem-body" style={{ marginTop: 20 }}>
-                {problem.body}
-              </p>
-            </Reveal>
-            <Reveal delay={80}>
-              <div className="problem-aside">
-                <span className="eyebrow" style={{ marginBottom: 14 }}>
-                  Market structure
-                </span>
-                <div className="problem-aside-row">
-                  <span className="problem-aside-k">Legacy allocation</span>
-                  <span className="problem-aside-v pav-bad">A hallway line</span>
-                </div>
-                <div className="problem-aside-row">
-                  <span className="problem-aside-k">ToiletDAO allocation</span>
-                  <span className="problem-aside-v pav-good">An order book</span>
-                </div>
-                <div className="problem-aside-row">
-                  <span className="problem-aside-k">Price discovery</span>
-                  <span className="problem-aside-v pav-good">Real-time</span>
-                </div>
-                <div className="problem-aside-row">
-                  <span className="problem-aside-k">Hedging</span>
-                  <span className="problem-aside-v pav-good">Futures + Shorts</span>
-                </div>
-                <div className="problem-aside-row">
-                  <span className="problem-aside-k">Settlement</span>
-                  <span className="problem-aside-v pav-good">T+0 on-chain</span>
-                </div>
-                <div className="problem-aside-row">
-                  <span className="problem-aside-k">Liquidity events / day</span>
-                  <span className="problem-aside-v">6 per capita</span>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ---------------- HOW IT WORKS ---------------- */}
-        <section className="section" id="how">
-          <div className="container">
-            <Reveal className="section-head">
-              <span className="eyebrow">{howItWorks.eyebrow}</span>
-              <h2 className="section-title">{howItWorks.heading}</h2>
-            </Reveal>
-            <Reveal className="steps">
-              {howItWorks.steps.map((s) => (
-                <div className="step" key={s.n}>
-                  <span className="step-n mono">{s.n}</span>
-                  <h3 className="step-title">{s.title}</h3>
-                  <p className="step-desc">{s.desc}</p>
-                </div>
-              ))}
-            </Reveal>
-            <Reveal>
-              <div className="curve-card">
-                <div className="curve-copy">
-                  <span className="eyebrow">{howItWorks.curve.eyebrow}</span>
-                  <h3>Price is a function of proximity</h3>
-                  <p>{howItWorks.curve.caption}</p>
-                  <div className="curve-anchors">
-                    {howItWorks.curve.anchors.map((a) => (
-                      <span className="chip mono" key={a.label}>
-                        {a.label} · ${a.price}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div className="curve-svg-wrap">
-                  <PricingCurve />
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ---------------- OCCUPANCY MAP ---------------- */}
-        <section className="section" id="markets" style={{ background: "var(--bg-tint)", borderBlock: "1px solid var(--hair)" }}>
-          <div className="container occ-wrap">
-            <Reveal>
-              <span className="eyebrow">{occupancy.eyebrow}</span>
-              <h2 className="section-title">{occupancy.heading}</h2>
-              <p className="lede">{occupancy.body}</p>
-            </Reveal>
-            <Reveal delay={80}>
-              <OccupancyMap />
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ---------------- DERIVATIVES ---------------- */}
-        <section className="section" id="derivatives">
-          <div className="container">
-            <Reveal className="section-head">
-              <span className="eyebrow">{derivatives.eyebrow}</span>
-              <h2 className="section-title">{derivatives.heading}</h2>
-            </Reveal>
-            <Reveal className="deriv-grid">
-              {derivatives.cards.map((c) => (
-                <div className="deriv-card" key={c.title}>
-                  <span className={`deriv-tag ${c.tone}`}>{c.tag}</span>
-                  <h3 className="deriv-title">{c.title}</h3>
-                  <p className="deriv-desc">{c.desc}</p>
-                  <div className="deriv-chip">{c.chip}</div>
-                </div>
-              ))}
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ---------------- UNIT ECONOMICS ---------------- */}
-        <section className="section" style={{ background: "var(--surface)", borderBlock: "1px solid var(--hair)" }}>
-          <div className="container">
-            <Reveal className="section-head">
-              <span className="eyebrow">{economics.eyebrow}</span>
-              <h2 className="section-title">{economics.heading}</h2>
-            </Reveal>
-            <div className="econ-wrap">
-              <Reveal>
-                <div className="econ-take">
-                  <div className="econ-take-value mono">{economics.takeRate}</div>
-                  <div className="econ-take-label">{economics.takeRateLabel}</div>
-                  <div className="econ-take-note">
-                    We are not the toilet. We are the exchange the toilet clears on.
-                    Asset-light by construction.
-                  </div>
-                </div>
-              </Reveal>
-              <Reveal delay={80}>
-                <div className="econ-table-wrap">
-                  <table className="econ-table">
-                    <thead>
-                      <tr>
-                        <th>Line item</th>
-                        <th>Value</th>
-                        <th>Basis</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {economics.rows.map((r) => (
-                        <tr key={r.k}>
-                          <td className="econ-k">{r.k}</td>
-                          <td className="econ-v">{r.v}</td>
-                          <td className="econ-note">{r.note}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </Reveal>
             </div>
           </div>
         </section>
 
-        {/* ---------------- TOKEN & GOVERNANCE ---------------- */}
-        <section className="section" id="token">
+        {/* ---------------- MEMBERSHIP ---------------- */}
+        <section className="section" id="membership" style={{ paddingTop: 0 }}>
           <div className="container">
-            <Reveal className="section-head">
-              <span className="eyebrow">{token.eyebrow}</span>
-              <h2 className="section-title">{token.heading}</h2>
-              <p className="lede">{token.body}</p>
-            </Reveal>
-            <div className="token-panel">
-              <div className="token-stats">
-                <div className="token-row">
-                  <span className="k">Treasury (flush reserve)</span>
-                  <span className="v">
-                    <LiveValue start={token.treasuryStart} prefix="$" />
-                  </span>
-                </div>
-                {token.stats.map((s) => (
-                  <div className="token-row" key={s.k}>
-                    <span className="k">{s.k}</span>
-                    <span className="v">{s.v}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="token-alloc">
-                <div className="token-alloc-label">Token allocation</div>
-                <div className="token-bar" aria-hidden="true">
-                  {token.allocation.map((a, i) => (
-                    <span
-                      key={a.label}
-                      style={{ width: `${a.pct}%`, background: allocColors[i] }}
-                    />
-                  ))}
-                </div>
-                <div className="token-legend">
-                  {token.allocation.map((a, i) => (
-                    <span key={a.label}>
-                      <i style={{ background: allocColors[i] }} />
-                      {a.label} · {a.pct}%
-                    </span>
-                  ))}
-                </div>
-                <div className="token-proposal">
-                  <span className="token-prop-id">{token.proposal.id}</span>
-                  <div className="token-prop-text">{token.proposal.text}</div>
-                  <div className="token-prop-meta">{token.proposal.meta}</div>
-                </div>
-              </div>
+            <div className="section-head">
+              <span className="eyebrow">{membership.eyebrow}</span>
+              <h2 className="display-title">{membership.heading}</h2>
+              <p className="lede">{membership.lede}</p>
             </div>
           </div>
-        </section>
-
-        {/* ---------------- PRICING ---------------- */}
-        <section className="section" id="pricing">
           <div className="container">
-            <Reveal className="section-head" style={{ marginInline: "auto", textAlign: "center" }}>
-              <span className="eyebrow" style={{ justifyContent: "center" }}>
-                {pricing.eyebrow}
-              </span>
-              <h2 className="section-title">{pricing.heading}</h2>
-            </Reveal>
-            <Reveal className="price-grid">
-              {pricing.tiers.map((t) => (
-                <div className={`price-card ${t.featured ? "featured" : ""}`} key={t.tier}>
-                  {t.featured && <span className="price-badge">Most liquid</span>}
-                  <span className="price-tier">{t.tier}</span>
-                  <div className="price-amount">
-                    <span className="amt mono">{t.price}</span>
-                    {t.period && <span className="per">{t.period}</span>}
+            <div className="tiers">
+              {membership.tiers.map((t) => (
+                <div className={`tier ${t.featured ? "feature" : ""}`} key={t.name}>
+                  <div className="tier-rank">{t.rank}</div>
+                  <div className="tier-name">{t.name}</div>
+                  <div className="tier-price">
+                    <b>{t.price}</b>
+                    {t.priceNote ? ` · ${t.priceNote}` : ""}
                   </div>
-                  <p className="price-tagline">{t.tagline}</p>
-                  <ul className="price-features">
+                  <p className="tier-desc">{t.desc}</p>
+                  <ul className="tier-list">
                     {t.features.map((f) => (
-                      <li key={f}>
-                        <span className="tick" aria-hidden="true">
-                          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M2.5 6.5l2.5 2.5 4.5-5.5" />
-                          </svg>
-                        </span>
-                        <span>{f}</span>
-                      </li>
+                      <li key={f}>{f}</li>
                     ))}
                   </ul>
-                  <a className={`btn ${t.featured ? "btn-primary" : "btn-ghost"}`} href="#top">
+                  <a className={`btn ${t.featured ? "btn-solid" : "btn-quiet"}`} href="#desk">
                     {t.cta}
                   </a>
                 </div>
               ))}
-            </Reveal>
-            <p className="price-klarna">
-              <b>Toilet Klarna</b> {pricing.klarna.replace(/^Toilet Klarna /, "")}
+            </div>
+            <p
+              className="mono"
+              style={{
+                textAlign: "center",
+                marginTop: 26,
+                fontSize: "0.72rem",
+                letterSpacing: "0.06em",
+                color: "var(--stone)",
+              }}
+            >
+              {membership.note}
             </p>
           </div>
         </section>
 
-        {/* ---------------- TESTIMONIALS ---------------- */}
-        <section className="section" style={{ background: "var(--bg-tint)", borderBlock: "1px solid var(--hair)" }}>
-          <div className="container">
-            <Reveal className="section-head">
-              <span className="eyebrow">{testimonials.eyebrow}</span>
-              <h2 className="section-title">{testimonials.heading}</h2>
-            </Reveal>
-            <Reveal className="testi-grid">
-              {testimonials.quotes.map((q) => (
-                <figure className="testi-card" key={q.name}>
-                  <div className="testi-mark" aria-hidden="true">
-                    &ldquo;
-                  </div>
-                  <blockquote className="testi-quote">{q.quote}</blockquote>
-                  <figcaption className="testi-who">
-                    <span className="testi-avatar mono" aria-hidden="true">
-                      {q.initials}
-                    </span>
-                    <span>
-                      <span className="testi-name">{q.name}</span>
-                      <br />
-                      <span className="testi-title">{q.title}</span>
-                    </span>
-                  </figcaption>
-                </figure>
-              ))}
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ---------------- STATUS + CAREERS ---------------- */}
-        <section className="section">
-          <div className="container">
-            <Reveal className="section-head">
-              <span className="eyebrow">{status.eyebrow}</span>
-              <h2 className="section-title">{status.heading}</h2>
-            </Reveal>
-            <Reveal className="trust-grid">
-              <div className="status-card">
-                <div className="status-top">
-                  <span className="status-dot" aria-hidden="true" />
-                  <span className="status-title">{status.systems}</span>
-                </div>
-                <p className="status-line mono">{status.line}</p>
-                <div className="status-uptime" aria-hidden="true">
-                  {Array.from({ length: 44 }, (_, i) => (
-                    <span className={`status-bar ${i === 29 ? "down" : ""}`} key={i} />
-                  ))}
-                </div>
-              </div>
-              <div className="careers-card">
-                <span className="careers-eyebrow">We&rsquo;re hiring</span>
-                <h3 className="careers-role">{status.careers.role}</h3>
-                <p className="careers-detail">{status.careers.detail}</p>
-                <a className="btn btn-ghost btn-sm" href="#top">
-                  View open positions
-                </a>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-
         {/* ---------------- FAQ ---------------- */}
-        <section className="section" id="faq" style={{ background: "var(--surface)", borderTop: "1px solid var(--hair)" }}>
+        <section className="section" id="faq" style={{ paddingTop: 0 }}>
           <div className="container">
-            <Reveal className="section-head">
+            <div className="section-head">
               <span className="eyebrow">{faq.eyebrow}</span>
-              <h2 className="section-title">{faq.heading}</h2>
-            </Reveal>
-            <Reveal>
-              <div className="faq-list">
-                {faq.items.map((item) => (
-                  <details className="faq-item" key={item.q}>
-                    <summary className="faq-summary">
-                      {item.q}
-                      <span className="faq-icon" aria-hidden="true">
-                        +
-                      </span>
-                    </summary>
-                    <p className="faq-answer">{item.a}</p>
-                  </details>
-                ))}
-              </div>
-            </Reveal>
+              <h2 className="display-title">{faq.heading}</h2>
+            </div>
+            <div className="faq-list">
+              {faq.items.map((item, i) => (
+                <details className="faq-item" key={item.q}>
+                  <summary className="faq-summary">
+                    <span className="faq-q-n mono">{String(i + 1).padStart(2, "0")}</span>
+                    {item.q}
+                    <span className="faq-icon" aria-hidden="true">
+                      +
+                    </span>
+                  </summary>
+                  <p className="faq-answer">{item.a}</p>
+                </details>
+              ))}
+            </div>
           </div>
         </section>
       </main>
@@ -451,13 +163,10 @@ export default function Home() {
         <div className="container">
           <div className="footer-top">
             <div className="footer-brand">
-              <span className="brand">
-                <span className="brand-mark" aria-hidden="true">
-                  W
-                </span>
-                {brand.wordmark}
+              <span className="wordmark">
+                WC<b>.exit</b>
               </span>
-              <p className="footer-tagline">{footer.tagline}</p>
+              <p className="footer-tag">{footer.tagline}</p>
             </div>
             {footer.columns.map((col) => (
               <div className="footer-col" key={col.title}>
@@ -474,25 +183,18 @@ export default function Home() {
           </div>
 
           <div className="footer-fine">
-            <p>
-              <span className="footer-status">
-                <span className="status-dot" aria-hidden="true" />
-                {footer.statusLine}
-              </span>
-            </p>
+            <p>{footer.statusLine}</p>
             <p>{footer.privacyLine}</p>
             <p>{footer.careersLine}</p>
           </div>
 
-          <div className="footer-fine" style={{ paddingTop: 0 }}>
+          <div className="footer-fine" style={{ paddingTop: 0, borderTop: "none" }}>
             <p>{footer.disclosure}</p>
           </div>
 
           <div className="footer-legal">
-            <span>
-              © 2026 {brand.name} Labs, Inc. · {brand.ticker} · Not a bank. Not a toilet.
-            </span>
-            <span className="mono">Settlement T+0 · Uptime 99.97%</span>
+            <span>{footer.legal}</span>
+            <span>{brand.name} · Uptime 99.97%</span>
           </div>
         </div>
       </footer>
