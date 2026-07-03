@@ -19,6 +19,7 @@ const pressLogos = [...brandMarks, ...brandMarks].map((b, i) => ({
   className: "h-14 w-auto",
 }));
 import MarketBoard from "@/components/market/MarketBoard";
+import Oracle from "@/components/Oracle";
 import { hero, doctrine, membership, faq, footer, brand } from "@/lib/copy";
 
 export default function Home() {
@@ -74,6 +75,9 @@ export default function Home() {
             <MarketBoard />
           </div>
         </section>
+
+        {/* ---------------- THE ORACLE — AI urgency pricing ---------------- */}
+        <Oracle />
 
         {/* ---------------- DOCTRINE ---------------- */}
         <section className="section" id="doctrine" style={{ paddingTop: 0 }}>

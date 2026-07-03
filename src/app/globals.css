@@ -2291,3 +2291,152 @@ a {
   padding: 12px 14px;
   font-size: 0.85rem;
 }
+
+/* ============================================================
+   THE ORACLE — AI urgency appraisal
+   ============================================================ */
+.oracle-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .oracle-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+.oracle-form {
+  display: grid;
+  gap: 16px;
+}
+.oracle-textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.55;
+  font-family: var(--font-body);
+}
+.oracle-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.oracle-ex {
+  background: transparent;
+  border: 1px solid var(--hair);
+  color: var(--stone);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  padding: 7px 11px;
+  cursor: pointer;
+  transition: border-color var(--slow) var(--ease), color var(--slow) var(--ease);
+}
+.oracle-ex:hover:not(:disabled) {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.oracle-ex:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.oracle-error {
+  color: var(--oxblood-bright);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+/* result card */
+.oracle-result {
+  border: 1px solid var(--hair-strong);
+  background: linear-gradient(180deg, var(--obsidian-3), var(--obsidian-2));
+  padding: 30px 30px 26px;
+  display: grid;
+  gap: 18px;
+  min-height: 100%;
+  opacity: 0.62;
+  transition: opacity var(--slow) var(--ease), border-color var(--slow) var(--ease);
+}
+.oracle-result.on {
+  opacity: 1;
+  border-color: var(--hair-strong);
+}
+.oracle-quote {
+  display: grid;
+  gap: 4px;
+}
+.oracle-base {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--stone-dim);
+}
+.oracle-figure {
+  font-size: clamp(2.6rem, 7vw, 3.8rem);
+  line-height: 1;
+  color: var(--gold-bright);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.oracle-unit {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.oracle-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.oracle-mult,
+.oracle-demand {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  padding: 6px 11px;
+  border: 1px solid var(--hair-strong);
+  color: var(--gold);
+}
+.oracle-demand {
+  color: var(--ivory-dim);
+  border-color: var(--hair);
+}
+.oracle-meter {
+  height: 6px;
+  background: var(--obsidian);
+  border: 1px solid var(--hair);
+  overflow: hidden;
+}
+.oracle-meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold-bright));
+  transition: width 0.9s var(--ease);
+}
+.oracle-verdict {
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  line-height: 1.5;
+  color: var(--ivory);
+  font-style: italic;
+}
+.oracle-factors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.oracle-chip {
+  font-size: 0.64rem;
+  letter-spacing: 0.05em;
+  padding: 5px 10px;
+  border: 1px solid var(--hair);
+  color: var(--stone);
+  background: var(--obsidian);
+}
+.oracle-fine,
+.oracle-placeholder {
+  font-size: 0.64rem;
+  letter-spacing: 0.06em;
+  color: var(--stone-dim);
+  line-height: 1.6;
+}
