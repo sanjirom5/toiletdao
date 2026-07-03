@@ -24,7 +24,7 @@ export const hero = {
   headline: "We tokenized the one resource you can't postpone.",
   subhead:
     "ToiletDAO is a dynamic exchange for restroom access. Price discovery in real time, slots settled on-chain, occupancy hedged with derivatives. Uber solved transport. We solve inevitability.",
-  primaryCta: "Reserve a slot",
+  primaryCta: "Take a position",
   secondaryCta: "Read the whitepaper",
   ticker: "2.3M slots cleared · settlement T+0",
 } as const;
@@ -46,7 +46,7 @@ export const surgeTape = {
 } as const;
 
 export const metrics = [
-  { value: "+340%", unit: "QoQ", label: "GMV (Gross Malodorous Value)" },
+  { value: "+340%", unit: "QoQ", label: "GMV (Gross Movement Value)" },
   { value: "2.3M", unit: "", label: "Bookings settled to date" },
   { value: "91%", unit: "", label: "Toilet Score retention within 24h" },
   { value: "7.4x", unit: "", label: "Avg peak surge · Almaty offices, Fri 17:00" },
@@ -151,8 +151,36 @@ export const economics = {
     { k: "SOM · Y1 beachhead (APAC coworking)", v: "$18M", note: "3-year serviceable target" },
     { k: "Blended take rate", v: "12%", note: "8% on Pro, 12% Retail" },
     { k: "CAC", v: "$0.04", note: "users arrive pre-motivated" },
+    { k: "LTV", v: "$1,240", note: "6 events/day × 40-year career" },
+    { k: "LTV : CAC", v: "31,000 : 1", note: "we round down for the board" },
     { k: "Payback period", v: "< 1 visit", note: "instant, by definition" },
+    { k: "Moat", v: "Biological", note: "demand cannot be deferred, only priced" },
   ],
+} as const;
+
+export const token = {
+  eyebrow: "Token & governance",
+  heading: "The $WC token clears every settlement",
+  body: "Every reserved minute settles on-chain against the flush reserve. $WC holders govern surge policy, floor-level SLAs, and inventory expansion. One wallet, one bladder, one vote.",
+  // treasury ticks up live; others static
+  treasuryStart: 41_203_918,
+  stats: [
+    { k: "Circulating supply", v: "1,000,000,000 $WC" },
+    { k: "Staking APR", v: "6.9%" },
+    { k: "Active governance proposals", v: "14" },
+    { k: "Settlement finality", v: "T+0" },
+  ],
+  allocation: [
+    { label: "Community", pct: 34 },
+    { label: "Treasury", pct: 28 },
+    { label: "Team & advisors", pct: 22 },
+    { label: "Liquidity", pct: 16 },
+  ],
+  proposal: {
+    id: "WCIP-14",
+    text: "Raise Rush Hour multiplier to ×6 on Floor 3",
+    meta: "Quorum reached · voting closes in 2 days · 68% in favor",
+  },
 } as const;
 
 export const pricing = {
@@ -183,7 +211,7 @@ export const pricing = {
       period: "/mo",
       tagline: "For professionals who refuse to be a price-taker.",
       featured: true,
-      cta: "Go Pro",
+      cta: "Become a price-maker",
       features: [
         "Priority slot allocation ahead of Retail",
         "20% off all surge multipliers, Rush Hour included",

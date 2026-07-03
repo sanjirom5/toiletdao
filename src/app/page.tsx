@@ -3,6 +3,7 @@ import SiteNav from "@/components/SiteNav";
 import ToiletTerminal from "@/components/ToiletTerminal";
 import OccupancyMap from "@/components/OccupancyMap";
 import PricingCurve from "@/components/PricingCurve";
+import LiveValue from "@/components/LiveValue";
 import Reveal from "@/components/Reveal";
 import {
   brand,
@@ -14,6 +15,7 @@ import {
   occupancy,
   derivatives,
   economics,
+  token,
   pricing,
   testimonials,
   status,
@@ -21,9 +23,25 @@ import {
   footer,
 } from "@/lib/copy";
 
+// Faux-logo styling so the press bar reads as distinct lockups, not a word list.
+const pressStyles: React.CSSProperties[] = [
+  { fontWeight: 800, letterSpacing: "-0.04em" },
+  { fontWeight: 500, fontStyle: "italic", letterSpacing: "0" },
+  { fontWeight: 700, fontFamily: "var(--font-mono)", letterSpacing: "-0.02em" },
+  { fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", fontSize: "0.9rem" },
+  { fontWeight: 800, letterSpacing: "-0.02em" },
+  { fontWeight: 500, fontFamily: "var(--font-mono)", letterSpacing: "0" },
+];
+
+// Allocation segment colors — deliberately no vermilion (it stays rationed to prices).
+const allocColors = ["var(--teal)", "var(--amber)", "var(--chrome)", "rgba(255,255,255,0.34)"];
+
 export default function Home() {
   return (
     <>
+      <a className="skip-link" href="#top">
+        Skip to content
+      </a>
       <SurgeTape />
       <SiteNav />
 
@@ -42,7 +60,7 @@ export default function Home() {
                 <a className="btn btn-primary" href="#pricing">
                   {hero.primaryCta}
                 </a>
-                <a className="btn btn-ghost" href="#how">
+                <a className="btn btn-ghost" href="#token">
                   {hero.secondaryCta}
                 </a>
               </div>
@@ -61,8 +79,8 @@ export default function Home() {
         <div className="featured">
           <div className="container featured-inner">
             <span className="featured-label">As featured in</span>
-            {featuredIn.map((f) => (
-              <span className="featured-logo" key={f}>
+            {featuredIn.map((f, i) => (
+              <span className="featured-logo" key={f} style={pressStyles[i % pressStyles.length]}>
                 {f}
               </span>
             ))}
@@ -246,6 +264,57 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ---------------- TOKEN & GOVERNANCE ---------------- */}
+        <section className="section" id="token">
+          <div className="container">
+            <Reveal className="section-head">
+              <span className="eyebrow">{token.eyebrow}</span>
+              <h2 className="section-title">{token.heading}</h2>
+              <p className="lede">{token.body}</p>
+            </Reveal>
+            <div className="token-panel">
+              <div className="token-stats">
+                <div className="token-row">
+                  <span className="k">Treasury (flush reserve)</span>
+                  <span className="v">
+                    <LiveValue start={token.treasuryStart} prefix="$" />
+                  </span>
+                </div>
+                {token.stats.map((s) => (
+                  <div className="token-row" key={s.k}>
+                    <span className="k">{s.k}</span>
+                    <span className="v">{s.v}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="token-alloc">
+                <div className="token-alloc-label">Token allocation</div>
+                <div className="token-bar" aria-hidden="true">
+                  {token.allocation.map((a, i) => (
+                    <span
+                      key={a.label}
+                      style={{ width: `${a.pct}%`, background: allocColors[i] }}
+                    />
+                  ))}
+                </div>
+                <div className="token-legend">
+                  {token.allocation.map((a, i) => (
+                    <span key={a.label}>
+                      <i style={{ background: allocColors[i] }} />
+                      {a.label} · {a.pct}%
+                    </span>
+                  ))}
+                </div>
+                <div className="token-proposal">
+                  <span className="token-prop-id">{token.proposal.id}</span>
+                  <div className="token-prop-text">{token.proposal.text}</div>
+                  <div className="token-prop-meta">{token.proposal.meta}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ---------------- PRICING ---------------- */}
         <section className="section" id="pricing">
           <div className="container">
@@ -269,7 +338,9 @@ export default function Home() {
                     {t.features.map((f) => (
                       <li key={f}>
                         <span className="tick" aria-hidden="true">
-                          ✓
+                          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M2.5 6.5l2.5 2.5 4.5-5.5" />
+                          </svg>
                         </span>
                         <span>{f}</span>
                       </li>
@@ -282,8 +353,7 @@ export default function Home() {
               ))}
             </Reveal>
             <p className="price-klarna">
-              <b>Toilet Klarna</b> available at checkout — buy now, pay later on urgent slots.
-              Financing subject to Toilet Score.
+              <b>Toilet Klarna</b> {pricing.klarna.replace(/^Toilet Klarna /, "")}
             </p>
           </div>
         </section>
@@ -343,7 +413,7 @@ export default function Home() {
                 <h3 className="careers-role">{status.careers.role}</h3>
                 <p className="careers-detail">{status.careers.detail}</p>
                 <a className="btn btn-ghost btn-sm" href="#top">
-                  View open roles
+                  View open positions
                 </a>
               </div>
             </Reveal>

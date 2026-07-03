@@ -106,7 +106,7 @@ export default function ToiletTerminal() {
   const fillStr = quote.price.toFixed(2);
 
   return (
-    <div className="terminal" role="img" aria-label={`Live order book for ${brand.asset}. Mid price ${money(book.mid)}. Your quoted fill at urgency ${urgency} of 10 is ${money(quote.price)}.`}>
+    <div className="terminal" role="group" aria-label={`Live order book for ${brand.asset}`}>
       <div className="term-head">
         <span className="term-dot-row" aria-hidden="true">
           <span className="term-dot" />

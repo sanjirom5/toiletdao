@@ -69,7 +69,7 @@ export default function SiteNav() {
           >
             {theme === "dark" ? <SunIcon /> : <MoonIcon />}
           </button>
-          <a className="btn btn-dark btn-sm nav-cta-desktop" href="#pricing">
+          <a className="btn btn-dark btn-sm nav-cta-desktop" href="#top">
             {nav.cta}
           </a>
           <button
@@ -92,7 +92,7 @@ export default function SiteNav() {
               {l.label}
             </a>
           ))}
-          <a href="#pricing" onClick={() => setOpen(false)}>
+          <a href="#top" onClick={() => setOpen(false)}>
             {nav.cta}
           </a>
         </nav>

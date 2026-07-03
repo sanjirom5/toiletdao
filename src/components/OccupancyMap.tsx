@@ -40,10 +40,19 @@ export default function OccupancyMap() {
   const initial = useMemo(() => makeStalls(SEED), []);
   const [stalls, setStalls] = useState<Stall[]>(initial);
   const [active, setActive] = useState<Stall | null>(null);
+  const [reduced, setReduced] = useState(false);
   const stepRef = useRef(1);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const onChange = () => setReduced(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (reduced) return;
     const id = setInterval(() => {
       const step = stepRef.current++;
       const rand = mulberry32(SEED + step * 7);
@@ -62,7 +71,7 @@ export default function OccupancyMap() {
       });
     }, 2200);
     return () => clearInterval(id);
-  }, []);
+  }, [reduced]);
 
   const shown = active ?? null;
 
@@ -72,12 +81,11 @@ export default function OccupancyMap() {
         <span>Floor 3 · {occupancy.heading}</span>
         <span>LIVE</span>
       </div>
-      <div className="occ-grid" role="list">
+      <div className="occ-grid">
         {stalls.map((s) => (
           <button
             key={s.id}
             type="button"
-            role="listitem"
             className={`occ-cell occ-${s.state}`}
             onMouseEnter={() => setActive(s)}
             onFocus={() => setActive(s)}
