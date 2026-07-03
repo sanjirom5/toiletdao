@@ -36,8 +36,8 @@ function PlatformHeader({
   return (
     <header className="pf-header">
       <div className="container pf-header-inner">
-        <a className="wordmark" href="/" aria-label="WC.exit home">
-          WC<b>.exit</b>
+        <a className="wordmark" href="/" aria-label="FlushPass home">
+          FlushP<span className="wm-a">a</span>ss
           <span className="pf-tag">Terminal</span>
         </a>
         <div className="pf-header-right">

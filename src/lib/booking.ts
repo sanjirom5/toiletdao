@@ -149,8 +149,8 @@ export interface Tick {
 export function tickerFeed(step: number): Tick[] {
   const s = (n: number) => (Math.sin(step * 0.6 + n) + 1) / 2; // 0..1
   return [
-    { cabin: "Cabin A", surge: `${(2.4 + s(1) * 2.6).toFixed(1)}×`, bookings: 11 + Math.floor(s(2) * 9), mid: `$${(30 + s(3) * 22).toFixed(2)}` },
-    { cabin: "Cabin B", surge: `${(1.8 + s(4) * 2.1).toFixed(1)}×`, bookings: 7 + Math.floor(s(5) * 8), mid: `$${(24 + s(6) * 18).toFixed(2)}` },
+    { cabin: "Toilet 1", surge: `${(2.4 + s(1) * 2.6).toFixed(1)}×`, bookings: 11 + Math.floor(s(2) * 9), mid: `$${(30 + s(3) * 22).toFixed(2)}` },
+    { cabin: "Toilet 2", surge: `${(1.8 + s(4) * 2.1).toFixed(1)}×`, bookings: 7 + Math.floor(s(5) * 8), mid: `$${(24 + s(6) * 18).toFixed(2)}` },
   ];
 }
 

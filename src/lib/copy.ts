@@ -1,15 +1,15 @@
-// WC.exit — deadpan private-banking copy. Never winks.
+// FlushPass — deadpan private-banking copy. Never winks.
 
 export const brand = {
-  name: "WC.exit",
-  institution: "ToiletDAO Institution",
+  name: "FlushPass",
+  institution: "FlushPass Institution",
 } as const;
 
 export const hero = {
-  eyebrow: "A ToiletDAO Institution · Est. MMXXVI",
+  eyebrow: "A FlushPass Institution · Est. MMXXVI",
   headlineLead: "The private exchange for the moment that ",
   headlineEm: "will not wait",
-  tag: "WC.exit provides members with priced, guaranteed access to a limited estate of two cabins. Liquidity is continuous; pricing is dynamic; settlement is immediate. We do not sell convenience — we price certainty.",
+  tag: "FlushPass provides members with priced, guaranteed access to a limited estate of two cabins. Liquidity is continuous; pricing is dynamic; settlement is immediate. We do not sell convenience — we price certainty.",
   primary: "Reserve access",
   secondary: "Request membership",
   assurances: ["Settlement · T+0", "Estate · 2 cabins", "Access · by tier"],
@@ -142,7 +142,7 @@ export const faq = {
 export const footer = {
   tagline: "We do not sell restroom access. We price the certainty of it.",
   columns: [
-    { title: "The Estate", links: ["Cabin A", "Cabin B", "The order book", "Occupancy"] },
+    { title: "The Estate", links: ["Toilet 1", "Toilet 2", "The order book", "Occupancy"] },
     { title: "Membership", links: ["Founding Member", "Private", "Sovereign", "Concierge"] },
     { title: "Institution", links: ["Doctrine", "Governance", "Careers", "Press"] },
     { title: "Legal", links: ["Privacy", "Terms", "Risk disclosure", "Toilet Score"] },
@@ -150,10 +150,10 @@ export const footer = {
   privacyLine:
     "Privacy: we do not retain the duration of your occupancy. (We do. It trains the revaluation model, which would like a great deal more.)",
   statusLine:
-    "All systems operational · Cabin A occupied · Cabin B available · Uptime 99.97% · Last incident 14:32, resolved in 4 min",
+    "All systems operational · Toilet 1 occupied · Toilet 2 available · Uptime 99.97% · Last incident 14:32, resolved in 4 min",
   careersLine:
     "Now appointing: Chief Liquidity Officer (Sanitation) — by referral, compensation commensurate with discretion.",
   disclosure:
-    "Positions in restroom access carry risk, including the total loss of composure. Past occupancy does not indicate future availability. WC.exit is not a bank, a lavatory, or a registered exchange. Membership confers access, not ownership. $WC is a utility token with no intrinsic value and considerable extrinsic confidence.",
-  legal: "© MMXXVI ToiletDAO Institution · Settlement T+0 · By invitation",
+    "Positions in restroom access carry risk, including the total loss of composure. Past occupancy does not indicate future availability. FlushPass is not a bank, a lavatory, or a registered exchange. Membership confers access, not ownership. $FLUSH is a utility token with no intrinsic value and considerable extrinsic confidence.",
+  legal: "© MMXXVI FlushPass Institution · Settlement T+0 · By invitation",
 } as const;

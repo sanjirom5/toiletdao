@@ -26,29 +26,28 @@ const SITE_URL = "https://wc.exchange";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "WC.exit — The Private Exchange for Restroom Access",
+  title: "FlushPass — The Private Exchange for Restroom Access",
   description:
-    "ToiletDAO operates a dynamic exchange for restroom access. Real-time liquidity, dynamic revaluation, and members-only settlement across a limited estate of two cabins.",
+    "FlushPass operates a dynamic exchange for restroom access. Real-time liquidity, dynamic revaluation, and members-only settlement across a limited estate of two cabins.",
   keywords: [
-    "ToiletDAO",
-    "WC.exit",
+    "FlushPass",
     "restroom access exchange",
     "dynamic pricing",
     "private membership",
     "surge",
   ],
-  authors: [{ name: "ToiletDAO" }],
+  authors: [{ name: "FlushPass" }],
   openGraph: {
-    title: "WC.exit — The Private Exchange for Restroom Access",
+    title: "FlushPass — The Private Exchange for Restroom Access",
     description:
       "A dynamic exchange for restroom access. Real-time liquidity. Dynamic revaluation. Settlement for members only.",
     url: SITE_URL,
-    siteName: "WC.exit",
+    siteName: "FlushPass",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "WC.exit — The Private Exchange for Restroom Access",
+    title: "FlushPass — The Private Exchange for Restroom Access",
     description: "Real-time liquidity. Dynamic revaluation. Settlement for members only.",
   },
 };

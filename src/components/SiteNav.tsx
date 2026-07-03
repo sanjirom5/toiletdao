@@ -19,8 +19,8 @@ export default function SiteNav() {
   return (
     <header className="nav">
       <div className="container nav-inner">
-        <a className="wordmark" href="#top" aria-label="WC.exit home">
-          WC<b>.exit</b>
+        <a className="wordmark" href="#top" aria-label="FlushPass home">
+          FlushP<span className="wm-a">a</span>ss
         </a>
 
         <nav className="nav-links" aria-label="Primary">

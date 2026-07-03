@@ -173,7 +173,7 @@ export default function Home() {
           <div className="footer-top">
             <div className="footer-brand">
               <span className="wordmark">
-                WC<b>.exit</b>
+                FlushP<span className="wm-a">a</span>ss
               </span>
               <p className="footer-tag">{footer.tagline}</p>
             </div>

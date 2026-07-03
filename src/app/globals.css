@@ -38,6 +38,7 @@
   --stone-dim: #605c53;
   --oxblood: #6b1f2a;
   --oxblood-bright: #9a3341;
+  --nred: #e11d2e; /* nFactorial red — brand accent letter */
 
   --hair: rgba(201, 162, 75, 0.16);
   --hair-strong: rgba(201, 162, 75, 0.32);
@@ -347,6 +348,10 @@ a {
 .wordmark b {
   color: var(--gold);
   font-weight: 400;
+}
+.wordmark .wm-a {
+  color: var(--nred);
+  font-style: italic;
 }
 .nav-links {
   display: flex;
