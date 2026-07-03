@@ -8,7 +8,7 @@ const LINKS = [
   { label: "The Estate", href: "#estate" },
   { label: "The Desk", href: "#desk" },
   { label: "Membership", href: "#membership" },
-  { label: "Doctrine", href: "#doctrine" },
+  { label: "Terminal", href: "/reserve" },
 ];
 
 export default function SiteNav() {
@@ -36,8 +36,8 @@ export default function SiteNav() {
             <span className={`rank-dot rank-${mounted ? rank : "Gold"}`} />
             {mounted ? `${rank} · ${wallet.score}` : "Member"}
           </span>
-          <a className="btn btn-sm nav-cta-desktop" href="#desk">
-            Reserve
+          <a className="btn btn-sm nav-cta-desktop" href="/reserve">
+            Enter terminal
           </a>
           <button
             className="nav-toggle"
@@ -59,8 +59,8 @@ export default function SiteNav() {
               {l.label}
             </a>
           ))}
-          <a href="#desk" onClick={() => setOpen(false)}>
-            Reserve
+          <a href="/reserve" onClick={() => setOpen(false)}>
+            Enter terminal
           </a>
         </nav>
       )}

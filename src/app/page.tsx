@@ -25,7 +25,7 @@ export default function Home() {
             </h1>
             <p className="hero-tag">{hero.tag}</p>
             <div className="hero-cta">
-              <a className="btn btn-solid" href="#desk">
+              <a className="btn btn-solid" href="/reserve">
                 {hero.primary}
               </a>
               <a className="btn btn-quiet" href="#membership">
