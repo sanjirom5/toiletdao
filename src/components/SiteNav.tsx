@@ -5,8 +5,8 @@ import { rankFor } from "@/lib/booking";
 import { useWallet } from "@/lib/useWallet";
 
 const LINKS = [
-  { label: "The Estate", href: "#estate" },
-  { label: "The Desk", href: "#desk" },
+  { label: "The Market", href: "#market" },
+  { label: "Doctrine", href: "#doctrine" },
   { label: "Membership", href: "#membership" },
   { label: "Terminal", href: "/reserve" },
 ];

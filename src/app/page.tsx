@@ -18,10 +18,8 @@ const pressLogos = [...brandMarks, ...brandMarks].map((b, i) => ({
   image: `https://cdn.simpleicons.org/${b.key}/C9A24B`,
   className: "h-10 w-auto",
 }));
-import EstateStrip from "@/components/EstateStrip";
-import BookingDesk from "@/components/BookingDesk";
-import MemberLedger from "@/components/MemberLedger";
-import { hero, estate, desk, doctrine, membership, faq, footer, brand } from "@/lib/copy";
+import MarketBoard from "@/components/market/MarketBoard";
+import { hero, doctrine, membership, faq, footer, brand } from "@/lib/copy";
 
 export default function Home() {
   return (
@@ -43,7 +41,7 @@ export default function Home() {
             </h1>
             <p className="hero-tag">{hero.tag}</p>
             <div className="hero-cta">
-              <a className="btn btn-solid" href="/reserve">
+              <a className="btn btn-solid" href="#market">
                 {hero.primary}
               </a>
               <a className="btn btn-quiet" href="#membership">
@@ -70,29 +68,10 @@ export default function Home() {
         <ToiletIntro />
         <div id="enter" />
 
-        {/* ---------------- ESTATE ---------------- */}
-        <section className="section" id="estate" style={{ paddingBlock: "clamp(56px,8vw,96px)" }}>
+        {/* ---------------- THE LIVE MARKET (2 stalls) ---------------- */}
+        <section className="section" id="market" style={{ paddingBlock: "clamp(56px,8vw,96px)" }}>
           <div className="container">
-            <div className="section-head">
-              <span className="eyebrow">{estate.eyebrow}</span>
-              <h2 className="display-title">{estate.heading}</h2>
-              <p className="lede">{estate.lede}</p>
-            </div>
-          </div>
-          <EstateStrip />
-        </section>
-
-        {/* ---------------- THE DESK ---------------- */}
-        <section className="section" id="desk" style={{ paddingTop: 0 }}>
-          <div className="container">
-            <div className="section-head">
-              <span className="eyebrow">{desk.eyebrow}</span>
-              <h2 className="display-title">{desk.heading}</h2>
-              <p className="lede">{desk.lede}</p>
-            </div>
-            <BookingDesk />
-            <div style={{ height: 20 }} />
-            <MemberLedger />
+            <MarketBoard />
           </div>
         </section>
 
@@ -142,7 +121,7 @@ export default function Home() {
                       <li key={f}>{f}</li>
                     ))}
                   </ul>
-                  <a className={`btn ${t.featured ? "btn-solid" : "btn-quiet"}`} href="#desk">
+                  <a className={`btn ${t.featured ? "btn-solid" : "btn-quiet"}`} href="#market">
                     {t.cta}
                   </a>
                 </div>
