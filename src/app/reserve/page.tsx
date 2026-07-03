@@ -4,7 +4,7 @@ import Platform from "@/components/Platform";
 export const metadata: Metadata = {
   title: "The Terminal — WC.exit",
   description:
-    "Reserve the nFactorial cabin. Sign in, price your window, and settle. Live availability, members only.",
+    "The live access market for the nFactorial Bathroom. Two stalls, live per-minute pricing, metered settlement.",
 };
 
 export default function ReservePage() {

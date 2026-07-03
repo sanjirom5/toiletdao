@@ -1,31 +1,44 @@
-// Single-instrument platform state for the real nFactorial cabin.
-// All client-side; syncs across tabs via storage events + a custom event.
+// nFactorial Bathroom — live access market model + persistence.
+// Two toilets ("stalls"), each a tradeable instrument. All client-side;
+// name / spend / occupancy sync across tabs via storage + a custom event.
 
-export interface Session {
-  name: string;
-  since: number;
+export type StallId = "1" | "2";
+
+export interface Stall {
+  id: StallId;
+  name: string; // "Stall 1"
+  ticker: string; // "NFB·1"
+  designation: string; // location line
+  base: number; // base $/min the price mean-reverts toward
+  vol: number; // random-walk volatility
+  min: number; // price floor (pre-surge)
+  max: number; // price ceiling (pre-surge)
+  seed: number; // PRNG seed for the initial (deterministic) chart
 }
 
-export interface Reservation {
-  by: string;
-  slotMs: number;
-  price: number;
-  urgency: number;
-  createdMs: number;
-  checkedIn: boolean;
-  occupiedUntil?: number;
+export const VENUE = "nFactorial Bathroom";
+
+export const STALLS: Stall[] = [
+  { id: "1", name: "Stall 1", ticker: "NFB·1", designation: `${VENUE} · Floor 3 · by the window`, base: 3.5, vol: 0.5, min: 1.5, max: 9, seed: 1337 },
+  { id: "2", name: "Stall 2", ticker: "NFB·2", designation: `${VENUE} · Floor 3 · by the door`, base: 4.2, vol: 0.78, min: 1.5, max: 9, seed: 7331 },
+];
+
+/** A live, metered occupation of a stall by the current member. */
+export interface Occupancy {
+  stall: StallId;
+  by: string; // trader name at reservation time
+  startedMs: number; // meter start
+  accrued: number; // $ accrued so far (floats with the live rate)
+  lastTickMs: number; // last accrual tick — for resume-after-reload math
 }
 
-export type CabinStatus = "available" | "booked" | "occupied";
+export interface MarketState {
+  spend: number; // lifetime $ settled
+  occupancy: Occupancy | null;
+}
 
-export const CABIN = {
-  name: "nFactorial · Cabin 01",
-  location: "3rd floor · by the kitchen",
-  occupyMs: 4 * 60 * 1000, // in-use window after check-in (demo: 4 min)
-} as const;
-
-const SESSION_KEY = "wc-session";
-const CABIN_KEY = "wc-cabin";
+const NAME_KEY = "wc-trader-name";
+const MARKET_KEY = "wc-market";
 export const PLATFORM_EVENT = "wc-platform-change";
 
 function read<T>(key: string): T | null {
@@ -45,27 +58,26 @@ function write(key: string, value: unknown): void {
     else window.localStorage.setItem(key, JSON.stringify(value));
     window.dispatchEvent(new Event(PLATFORM_EVENT));
   } catch {
-    /* storage unavailable */
+    /* storage unavailable — degrade to in-memory */
   }
 }
 
-export function loadSession(): Session | null {
-  return read<Session>(SESSION_KEY);
+export function loadName(): string | null {
+  return read<string>(NAME_KEY);
 }
-export function saveSession(s: Session | null): void {
-  write(SESSION_KEY, s);
-}
-
-export function loadReservation(): Reservation | null {
-  return read<Reservation>(CABIN_KEY);
-}
-export function saveReservation(r: Reservation | null): void {
-  write(CABIN_KEY, r);
+export function saveName(name: string | null): void {
+  write(NAME_KEY, name);
 }
 
-export function statusOf(r: Reservation | null, nowMs: number): CabinStatus {
-  if (!r) return "available";
-  if (r.checkedIn && r.occupiedUntil && nowMs < r.occupiedUntil) return "occupied";
-  if (r.checkedIn) return "available"; // occupancy window elapsed
-  return "booked";
+export function defaultMarket(): MarketState {
+  return { spend: 0, occupancy: null };
+}
+
+export function loadMarket(): MarketState {
+  const m = read<MarketState>(MARKET_KEY);
+  if (!m || typeof m.spend !== "number") return defaultMarket();
+  return { spend: m.spend, occupancy: m.occupancy ?? null };
+}
+export function saveMarket(m: MarketState): void {
+  write(MARKET_KEY, m);
 }
