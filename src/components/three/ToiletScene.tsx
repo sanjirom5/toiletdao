@@ -19,7 +19,7 @@ function Rig({
   lidRef: RefObject<THREE.Group | null>;
 }) {
   const look = useRef(new THREE.Vector3(0, 0.95, 0));
-  const target = useRef(new THREE.Vector3(0.9, 1.45, 5.7));
+  const target = useRef(new THREE.Vector3(0.9, 1.5, 6.2));
 
   useFrame((state) => {
     const p = progressRef.current ?? 0;
@@ -34,8 +34,8 @@ function Rig({
     if (lidRef.current) {
       const lo = clamp01((p - 0.5) / 0.3);
       const eased = lo * lo * (3 - 2 * lo);
-      // cap short of vertical so the open lid rests against the tall cistern
-      lidRef.current.rotation.x = lerp(lidRef.current.rotation.x, -eased * 1.42, 0.16);
+      // cap short of vertical so the open lid clears the set-back cistern
+      lidRef.current.rotation.x = lerp(lidRef.current.rotation.x, -eased * 1.38, 0.16);
     }
 
     // --- camera: orbit → approach → dive into the bowl ---
@@ -43,10 +43,10 @@ function Rig({
     if (p < 0.5) {
       const a = p / 0.5;
       cx = Math.sin(a * 0.9) * 1.1;
-      cy = 1.4 + a * 0.2;
-      cz = 5.7 - a * 0.9;
+      cy = 1.5 + a * 0.15;
+      cz = 6.2 - a * 1.2;
       lx = 0;
-      ly = 0.92 + a * 0.12;
+      ly = 1.1 - a * 0.05;
       lz = 0;
     } else if (p < 0.82) {
       const a = (p - 0.5) / 0.32;
@@ -83,7 +83,7 @@ export default function ToiletScene({ progressRef }: { progressRef: RefObject<nu
   return (
     <Canvas
       dpr={[1, 1.8]}
-      camera={{ position: [0.9, 1.45, 5.7], fov: 42 }}
+      camera={{ position: [0.9, 1.5, 6.2], fov: 42 }}
       gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       style={{ width: "100%", height: "100%" }}
     >
@@ -95,7 +95,7 @@ export default function ToiletScene({ progressRef }: { progressRef: RefObject<nu
       <pointLight position={[0, 3, 6]} intensity={2.2} color="#ffe9bd" />
       <pointLight position={[-5, 2, 3]} intensity={1.2} color="#e8c25a" />
 
-      <group ref={spinRef} position={[0, -1.06, 0]} scale={0.92}>
+      <group ref={spinRef} position={[0, -0.82, 0]} scale={0.9}>
         <GoldenToilet lidGroupRef={lidRef} />
       </group>
 

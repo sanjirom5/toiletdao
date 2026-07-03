@@ -1,6 +1,16 @@
 import ToiletIntro from "@/components/three/ToiletIntro";
 import Ticker from "@/components/Ticker";
 import SiteNav from "@/components/SiteNav";
+import { Logos3 } from "@/components/ui/logos3";
+
+// Brand marks tinted to the house gold via the simpleicons color path.
+const pressLogos = [
+  { id: "logo-1", description: "Google", image: "https://cdn.simpleicons.org/google/C9A24B", className: "h-7 w-auto" },
+  { id: "logo-2", description: "Meta", image: "https://cdn.simpleicons.org/meta/C9A24B", className: "h-7 w-auto" },
+  { id: "logo-3", description: "Uber", image: "https://cdn.simpleicons.org/uber/C9A24B", className: "h-7 w-auto" },
+  { id: "logo-4", description: "Apple", image: "https://cdn.simpleicons.org/apple/C9A24B", className: "h-7 w-auto" },
+  { id: "logo-5", description: "Netflix", image: "https://cdn.simpleicons.org/netflix/C9A24B", className: "h-7 w-auto" },
+];
 import EstateStrip from "@/components/EstateStrip";
 import BookingDesk from "@/components/BookingDesk";
 import MemberLedger from "@/components/MemberLedger";
@@ -42,6 +52,14 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* ---------------- PRESS / LOGOS ---------------- */}
+        <div className="logos-wrap">
+          <Logos3
+            heading="We breathe the same air as Google, Meta, Uber, Apple & Netflix"
+            logos={pressLogos}
+          />
+        </div>
 
         {/* ---------------- ESTATE ---------------- */}
         <section className="section" id="estate" style={{ paddingBlock: "clamp(56px,8vw,96px)" }}>

@@ -20,17 +20,18 @@ function goldProps(roughness = 0.3): THREE.MeshStandardMaterialParameters {
 function useBodyGeometry() {
   return useMemo(() => {
     const p = (r: number, y: number) => new THREE.Vector2(r, y);
+    // slim pedestal foot flaring up into the wider bowl
     const pts = [
       p(0.0, 0.0),
-      p(0.66, 0.0),
-      p(0.74, 0.05),
-      p(0.75, 0.35),
-      p(0.7, 0.72),
-      p(0.63, 1.02),
-      p(0.58, 1.22),
-      p(0.6, 1.36),
-      p(0.66, 1.5),
-      p(0.72, 1.62),
+      p(0.46, 0.0),
+      p(0.52, 0.05),
+      p(0.5, 0.35),
+      p(0.46, 0.72),
+      p(0.46, 1.02),
+      p(0.5, 1.22),
+      p(0.56, 1.36),
+      p(0.64, 1.5),
+      p(0.71, 1.62),
       p(0.74, 1.72), // outer rim
       p(0.72, 1.78),
       p(0.56, 1.79), // rim top (flat ring)
@@ -66,22 +67,22 @@ export default function GoldenToilet({
         <meshStandardMaterial {...goldProps(0.28)} side={THREE.DoubleSide} />
       </mesh>
 
-      {/* cistern / tank — tall, like the reference */}
+      {/* cistern / tank — tall, seated higher and further back */}
       <RoundedBox
         args={[1.16, 1.7, 0.62]}
         radius={0.1}
         smoothness={6}
-        position={[0, 1.75, -0.62]}
+        position={[0, 1.98, -0.8]}
         scale={[1, 1, 1]}
       >
         <meshStandardMaterial {...goldProps(0.32)} />
       </RoundedBox>
       {/* tank lid */}
-      <RoundedBox args={[1.24, 0.16, 0.72]} radius={0.06} smoothness={5} position={[0, 2.66, -0.62]}>
+      <RoundedBox args={[1.24, 0.16, 0.72]} radius={0.06} smoothness={5} position={[0, 2.89, -0.8]}>
         <meshStandardMaterial {...goldProps(0.3)} />
       </RoundedBox>
       {/* flush button */}
-      <mesh position={[0, 2.76, -0.62]} rotation={[0, 0, 0]}>
+      <mesh position={[0, 2.99, -0.8]} rotation={[0, 0, 0]}>
         <cylinderGeometry args={[0.09, 0.09, 0.05, 32]} />
         <meshStandardMaterial color={GOLD_DEEP} metalness={1} roughness={0.38} envMapIntensity={1.2} />
       </mesh>
@@ -93,7 +94,7 @@ export default function GoldenToilet({
       </mesh>
 
       {/* hinged lid — group pivots at the back rim, tips up as lidOpen → 1 */}
-      <group ref={lidGroupRef} position={[0, 1.84, -0.42]} rotation={[lidAngle, 0, 0]}>
+      <group ref={lidGroupRef} position={[0, 1.84, -0.34]} rotation={[lidAngle, 0, 0]}>
         {/* flattened dome ellipsoid reads as a toilet lid */}
         <mesh position={[0, 0.05, 0.6]} scale={[0.92, 0.17, 1.02]} castShadow>
           <sphereGeometry args={[0.62, 56, 36]} />

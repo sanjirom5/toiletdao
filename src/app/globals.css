@@ -1,5 +1,24 @@
 @import "tailwindcss";
 
+/* shadcn/ui token bridge — maps shadcn color names onto the luxe palette
+   so components like carousel/button render on-brand in Tailwind v4. */
+@theme inline {
+  --color-background: #0b0c0e;
+  --color-foreground: #f5f0e6;
+  --color-primary: #c9a24b;
+  --color-primary-foreground: #0b0c0e;
+  --color-secondary: #131418;
+  --color-secondary-foreground: #f5f0e6;
+  --color-muted: #131418;
+  --color-muted-foreground: #8a8578;
+  --color-accent: #131418;
+  --color-accent-foreground: #c9a24b;
+  --color-destructive: #9a3341;
+  --color-border: rgba(201, 162, 75, 0.32);
+  --color-input: rgba(201, 162, 75, 0.32);
+  --color-ring: #c9a24b;
+}
+
 /* ============================================================
    WC.exit — Private Exchange for Restroom Access
    Obsidian + aged gold. Private-banking / haute-horlogerie register.
@@ -1267,6 +1286,31 @@ a {
   }
 }
 
+/* ============================================================
+   LOGOS3 wrapper — tunes the stock component to the luxe register
+   ============================================================ */
+.logos-wrap section {
+  padding-block: clamp(48px, 7vw, 80px);
+  border-top: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+}
+.logos-wrap h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+  color: var(--ivory-dim);
+  letter-spacing: 0;
+  max-width: 34ch;
+}
+.logos-wrap img {
+  opacity: 0.75;
+  transition: opacity var(--slow) var(--ease);
+}
+.logos-wrap img:hover {
+  opacity: 1;
+}
+
 /* skip link */
 .skip-link {
   position: absolute;
@@ -1766,7 +1810,7 @@ a {
   font-style: italic;
   color: var(--ivory-dim);
   font-size: clamp(1rem, 2vw, 1.4rem);
-  max-width: 30ch;
+  max-width: 58ch;
 }
 .intro-hint {
   position: absolute;
@@ -1871,5 +1915,277 @@ a {
   .ticker-track {
     animation: none !important;
     transform: none !important;
+  }
+}
+
+/* ============================================================
+   THE MARKET — nFactorial Bathroom live access terminal
+   ============================================================ */
+.market-shell {
+  max-width: 1000px;
+}
+.market-head {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+}
+.market-title {
+  font-family: var(--font-display);
+  font-weight: 380;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  letter-spacing: -0.02em;
+}
+.market-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+@media (max-width: 760px) {
+  .market-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.market-fine {
+  text-align: center;
+  font-size: 0.64rem;
+  letter-spacing: 0.05em;
+  color: var(--stone-dim);
+  max-width: 60ch;
+  margin-inline: auto;
+}
+
+/* ---------- stall card ---------- */
+.stall {
+  border: 1px solid var(--hair);
+  background: var(--obsidian-2);
+  padding: 26px 26px 24px;
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  transition: border-color var(--slow) var(--ease), background var(--slow) var(--ease);
+}
+.stall-mine {
+  border-color: var(--hair-strong);
+  background: color-mix(in srgb, var(--gold) 6%, var(--obsidian-2));
+}
+.stall-member {
+  border-color: color-mix(in srgb, var(--oxblood-bright) 45%, transparent);
+  background: color-mix(in srgb, var(--oxblood) 12%, var(--obsidian-2));
+}
+.stall-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+.stall-name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--ivory);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.stall-ticker {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: var(--stone);
+  border: 1px solid var(--hair-strong);
+  padding: 2px 6px;
+}
+.stall-desig {
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  color: var(--stone-dim);
+  margin-top: 7px;
+  text-transform: uppercase;
+}
+.stall-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--stone);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.stall-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.stall-available .stall-dot {
+  background: var(--gold);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 20%, transparent);
+}
+.stall-mine .stall-dot {
+  background: var(--gold-bright);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 26%, transparent);
+  animation: soft-pulse 2.2s var(--ease) infinite;
+}
+.stall-member .stall-dot {
+  background: var(--oxblood-bright);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--oxblood) 28%, transparent);
+}
+.stall-quote {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.stall-figure {
+  font-size: clamp(2rem, 6vw, 2.7rem);
+  color: var(--ivory);
+  line-height: 1;
+}
+.stall-unit {
+  font-size: 0.8rem;
+  color: var(--stone);
+}
+.stall-move {
+  margin-left: auto;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+}
+.stall-move.up {
+  color: var(--gold-bright);
+}
+.stall-move.down {
+  color: var(--oxblood-bright);
+}
+
+/* ---------- live chart ---------- */
+.chart {
+  width: 100%;
+  height: 72px;
+  display: block;
+  margin: 2px 0;
+}
+.chart-line {
+  fill: none;
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+.chart-dot {
+  stroke: none;
+}
+.chart-area {
+  stroke: none;
+  opacity: 0.12;
+}
+.chart-up .chart-line {
+  stroke: var(--gold-bright);
+}
+.chart-up .chart-dot,
+.chart-up .chart-area {
+  fill: var(--gold-bright);
+}
+.chart-down .chart-line {
+  stroke: var(--oxblood-bright);
+}
+.chart-down .chart-dot,
+.chart-down .chart-area {
+  fill: var(--oxblood-bright);
+}
+
+/* ---------- meter / actions ---------- */
+.stall-action {
+  margin-top: 2px;
+}
+.meter {
+  display: grid;
+  gap: 16px;
+  border-top: 1px solid var(--hair);
+  padding-top: 18px;
+}
+.meter-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+.meter-right {
+  text-align: right;
+}
+.meter-k {
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.meter-v {
+  font-size: 1.5rem;
+  color: var(--ivory);
+  line-height: 1;
+  margin-top: 6px;
+}
+.meter-bill {
+  color: var(--gold-bright);
+}
+.meter-fine {
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  color: var(--stone-dim);
+  text-align: center;
+}
+.stall-busy {
+  border-top: 1px solid var(--hair);
+  padding-top: 18px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--stone);
+  text-align: center;
+}
+
+/* ---------- name prompt ---------- */
+.name-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: color-mix(in srgb, var(--obsidian) 72%, transparent);
+  backdrop-filter: blur(8px);
+  animation: wc-fade 0.3s var(--ease);
+}
+.name-card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--obsidian-2);
+  border: 1px solid var(--hair-strong);
+  padding: clamp(28px, 5vw, 40px);
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+  text-align: center;
+}
+.name-card .pf-input {
+  width: 100%;
+}
+.name-title {
+  font-family: var(--font-display);
+  font-weight: 380;
+  font-size: clamp(1.7rem, 4.5vw, 2.4rem);
+  letter-spacing: -0.01em;
+}
+.name-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+.name-sub {
+  color: var(--ivory-dim);
+  font-size: 0.92rem;
+  max-width: 40ch;
+}
+@keyframes wc-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
