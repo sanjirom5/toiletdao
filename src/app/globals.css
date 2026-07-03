@@ -1299,15 +1299,15 @@ a {
   border-top: 1px solid var(--hair);
   border-bottom: 1px solid var(--hair);
 }
-/* heading recedes; the marks carry the moment */
+/* heading stays dim, but reads clearly; the marks carry the moment */
 .logos-wrap h1 {
   font-family: var(--font-mono);
   font-weight: 400;
   font-style: normal;
-  font-size: 0.7rem;
-  letter-spacing: 0.3em;
+  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--stone-dim);
+  color: var(--stone);
   max-width: none;
 }
 .logos-wrap img {
@@ -2205,4 +2205,89 @@ a {
   to {
     opacity: 1;
   }
+}
+
+/* ---------- shared roster (Supabase realtime) ---------- */
+.roster {
+  border: 1px solid var(--hair);
+  background: var(--obsidian-2);
+  padding: 22px 24px;
+  display: grid;
+  gap: 16px;
+}
+.roster-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.roster-count {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--stone);
+  text-transform: uppercase;
+}
+.roster-empty {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--stone-dim);
+}
+.roster-names {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.roster-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  color: var(--ivory-dim);
+  border: 1px solid var(--hair);
+  padding: 6px 12px;
+  transition: border-color var(--slow) var(--ease), color var(--slow) var(--ease);
+}
+.roster-name .roster-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--stone);
+  flex-shrink: 0;
+}
+.roster-name.me {
+  border-color: var(--hair-strong);
+  color: var(--ivory);
+}
+.roster-name.me .roster-dot {
+  background: var(--gold);
+}
+.roster-name.occ {
+  border-color: color-mix(in srgb, var(--oxblood-bright) 45%, transparent);
+  color: var(--ivory);
+}
+.roster-name.occ .roster-dot {
+  background: var(--oxblood-bright);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--oxblood) 30%, transparent);
+}
+.roster-tag {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--oxblood-bright);
+  border-left: 1px solid var(--hair);
+  padding-left: 8px;
+  margin-left: 2px;
+}
+.roster-join {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.roster-join .pf-input {
+  flex: 1;
+  min-width: 180px;
+  padding: 12px 14px;
+  font-size: 0.85rem;
 }

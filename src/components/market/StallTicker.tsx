@@ -48,7 +48,7 @@ export default function StallTicker({
         </div>
         <div className="stall-badge" aria-live="polite">
           <span className="stall-dot" />
-          {STATUS_LABEL[status]}
+          {status === "member" && view.holderName ? `In use · ${view.holderName}` : STATUS_LABEL[status]}
         </div>
       </div>
 
@@ -63,27 +63,40 @@ export default function StallTicker({
       <PriceChart data={view.buffer} up={view.up} />
 
       <div className="stall-action">
-        {status === "mine" && occupancy ? (
-          <div className="meter">
-            <div className="meter-row">
-              <div>
-                <div className="meter-k mono">Elapsed</div>
-                <div className="meter-v mono">{fmtElapsed(now - occupancy.startedMs)}</div>
+        {status === "mine" ? (
+          occupancy ? (
+            <div className="meter">
+              <div className="meter-row">
+                <div>
+                  <div className="meter-k mono">Elapsed</div>
+                  <div className="meter-v mono">{fmtElapsed(now - occupancy.startedMs)}</div>
+                </div>
+                <div className="meter-right">
+                  <div className="meter-k mono">Running</div>
+                  <div className="meter-v meter-bill mono">{money(occupancy.accrued)}</div>
+                </div>
               </div>
-              <div className="meter-right">
-                <div className="meter-k mono">Running</div>
-                <div className="meter-v meter-bill mono">{money(occupancy.accrued)}</div>
+              <button className="btn btn-oxblood" onClick={onEnd} style={{ width: "100%" }}>
+                End session &amp; settle
+              </button>
+              <div className="meter-fine mono">
+                Billed live at {money(view.price)}/min — the rate floats while you sit.
               </div>
             </div>
-            <button className="btn btn-oxblood" onClick={onEnd} style={{ width: "100%" }}>
-              End session &amp; settle
-            </button>
-            <div className="meter-fine mono">
-              Billed live at {money(view.price)}/min — the rate floats while you sit.
+          ) : (
+            <div className="meter">
+              <div className="stall-busy mono" style={{ borderTop: "none", paddingTop: 0 }}>
+                In use · yours (held in another tab)
+              </div>
+              <button className="btn btn-oxblood" onClick={onEnd} style={{ width: "100%" }}>
+                End session &amp; settle
+              </button>
             </div>
-          </div>
+          )
         ) : status === "member" ? (
-          <div className="stall-busy mono">Occupied by a member · book suspended until release.</div>
+          <div className="stall-busy mono">
+            Occupied by {view.holderName ?? "a member"} · book suspended until release.
+          </div>
         ) : (
           <button
             className="btn btn-solid"

@@ -54,22 +54,52 @@ export default function MarketBoard({
         {STALLS.map((cfg) => {
           const view = p.stalls.find((s) => s.id === cfg.id);
           if (!view) return null;
-          const mine = p.occupancy?.stall === cfg.id;
-          const holdsOther = !!p.occupancy && !mine;
+          const mine = view.status === "mine";
+          const iHoldAny = p.stalls.some((s) => s.status === "mine");
+          const localOcc = mine && p.occupancy?.stall === cfg.id ? p.occupancy : null;
           return (
             <StallTicker
               key={cfg.id}
               cfg={cfg}
               view={view}
-              occupancy={mine ? p.occupancy : null}
+              occupancy={localOcc}
               now={p.now}
-              disabled={holdsOther}
+              disabled={iHoldAny && !mine}
               onReserve={() => p.reserve(cfg.id)}
               onEnd={p.endSession}
             />
           );
         })}
       </div>
+
+      {p.configured && (
+        <div className="roster">
+          <div className="roster-head">
+            <span className="eyebrow">In the book</span>
+            <span className="roster-count mono">
+              {p.members.length} {p.members.length === 1 ? "member" : "members"}
+            </span>
+          </div>
+          {p.members.length === 0 ? (
+            <div className="roster-empty mono">The book is open — be the first to enter your name.</div>
+          ) : (
+            <div className="roster-names">
+              {p.members.map((m) => (
+                <span
+                  key={m.id}
+                  className={`roster-name mono ${m.id === p.myId ? "me" : ""} ${m.stall ? "occ" : ""}`}
+                >
+                  <span className="roster-dot" />
+                  {m.name}
+                  {m.id === p.myId ? " · you" : ""}
+                  {m.stall ? <span className="roster-tag">Toilet {m.stall}</span> : null}
+                </span>
+              ))}
+            </div>
+          )}
+          {!p.name && <JoinField onJoin={p.join} />}
+        </div>
+      )}
 
       <p className="market-fine mono">
         Prices are indicative and settle in real time. Positions in restroom access carry risk,
@@ -114,5 +144,33 @@ export default function MarketBoard({
         </div>
       )}
     </div>
+  );
+}
+
+function JoinField({ onJoin }: { onJoin: (name: string) => void }) {
+  const [v, setV] = useState("");
+  return (
+    <form
+      className="roster-join"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (v.trim()) {
+          onJoin(v);
+          setV("");
+        }
+      }}
+    >
+      <input
+        className="pf-input"
+        value={v}
+        onChange={(e) => setV(e.target.value)}
+        placeholder="Add your name to the book"
+        aria-label="Your name"
+        maxLength={40}
+      />
+      <button className="btn btn-quiet btn-sm" type="submit" disabled={!v.trim()}>
+        Enter the book
+      </button>
+    </form>
   );
 }

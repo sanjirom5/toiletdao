@@ -16,7 +16,7 @@ const pressLogos = [...brandMarks, ...brandMarks].map((b, i) => ({
   id: `logo-${i}`,
   description: b.description,
   image: `https://cdn.simpleicons.org/${b.key}/C9A24B`,
-  className: "h-10 w-auto",
+  className: "h-14 w-auto",
 }));
 import MarketBoard from "@/components/market/MarketBoard";
 import { hero, doctrine, membership, faq, footer, brand } from "@/lib/copy";
@@ -59,7 +59,7 @@ export default function Home() {
         {/* ---------------- PRESS / LOGOS ---------------- */}
         <div className="logos-wrap">
           <Logos3
-            heading="We breathe the same air as Google, Meta, Uber, Apple & Netflix"
+            heading="We breathe the same air with founders from:"
             logos={pressLogos}
           />
         </div>

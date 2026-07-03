@@ -14,10 +14,11 @@ import {
 } from "./platform";
 import { stepPrice, ease, rushMult, seedBuffer, isRushNow } from "./priceEngine";
 import { mulberry32 } from "./market";
+import { useMembers, type Member } from "./useMembers";
 
 const BUF = 60; // chart history length (~1 min at 1s/tick)
 const DEMAND_TARGET = 1.6; // price premium while a stall is occupied
-const SIM_MIN_MS = 30_000; // simulated-member occupancy: min duration
+const SIM_MIN_MS = 30_000; // simulated-member occupancy (fallback only): min duration
 const SIM_VAR_MS = 30_000; // …plus up to this much
 
 export interface StallView {
@@ -27,11 +28,14 @@ export interface StallView {
   up: boolean;
   pct: number;
   status: "available" | "mine" | "member";
+  holderName?: string; // real occupant's name when status === "member"
 }
 
 type NumById = Record<StallId, number>;
 
 export function usePlatform() {
+  const membersApi = useMembers();
+
   const [name, setNameState] = useState<string | null>(null);
   const [market, setMarket] = useState<MarketState>({ spend: 0, occupancy: null });
   const [stalls, setStalls] = useState<StallView[]>([]);
@@ -39,7 +43,19 @@ export function usePlatform() {
   const [mounted, setMounted] = useState(false);
   const [namePromptFor, setNamePromptFor] = useState<StallId | null>(null);
 
-  // Mutable simulation state kept in refs so the 1s tick never goes stale.
+  // Latest-value refs so the 1s tick and callbacks never read stale state.
+  const configuredRef = useRef(membersApi.configured);
+  const myIdRef = useRef(membersApi.myId);
+  const occByStallRef = useRef<Record<StallId, Member | null>>(membersApi.occupancy);
+  const setStallRef = useRef(membersApi.setStall);
+  const joinRef = useRef(membersApi.join);
+  configuredRef.current = membersApi.configured;
+  myIdRef.current = membersApi.myId;
+  occByStallRef.current = membersApi.occupancy;
+  setStallRef.current = membersApi.setStall;
+  joinRef.current = membersApi.join;
+
+  // Mutable simulation state (fallback mode) kept in refs.
   const rand = useRef<() => number>(() => 0.5);
   const priceRef = useRef<NumById>({ "1": STALLS[0].base, "2": STALLS[1].base });
   const bufRef = useRef<Record<StallId, number[]>>({ "1": [], "2": [] });
@@ -57,25 +73,47 @@ export function usePlatform() {
   const tick = useCallback((t: number) => {
     const rMult = rushMult(t);
     const occ = occRef.current;
+    const shared = configuredRef.current;
 
     const views: StallView[] = STALLS.map((cfg) => {
-      const sim = simRef.current[cfg.id];
-      const isMine = !!occ && occ.stall === cfg.id;
-      const otherId: StallId = cfg.id === "1" ? "2" : "1";
+      const isMine = shared
+        ? occByStallRef.current[cfg.id]?.id === myIdRef.current || occ?.stall === cfg.id
+        : occ?.stall === cfg.id;
 
-      // schedule a simulated-member occupancy on stalls the user isn't in — but
-      // never let both stalls be busy at once, so at least one stays reservable.
-      if (!isMine && t >= sim.next) {
-        const otherBusy = simRef.current[otherId].until > t;
-        if (otherBusy) {
-          sim.next = t + 3_000; // other stall is taken; try again shortly
+      let status: StallView["status"];
+      let holderName: string | undefined;
+      let occupied: boolean;
+
+      if (shared) {
+        const holder = occByStallRef.current[cfg.id];
+        if (isMine) {
+          status = "mine";
+          occupied = true;
+        } else if (holder) {
+          status = "member";
+          holderName = holder.name;
+          occupied = true;
         } else {
-          sim.until = t + SIM_MIN_MS + Math.floor(rand.current() * SIM_VAR_MS);
-          sim.next = sim.until + 40_000 + Math.floor(rand.current() * 60_000);
+          status = "available";
+          occupied = false;
         }
+      } else {
+        // Fallback: simulate a member on the stall the user isn't in, without
+        // ever letting both be busy so one stays reservable.
+        const sim = simRef.current[cfg.id];
+        const otherId: StallId = cfg.id === "1" ? "2" : "1";
+        if (!isMine && t >= sim.next) {
+          const otherBusy = simRef.current[otherId].until > t;
+          if (otherBusy) sim.next = t + 3_000;
+          else {
+            sim.until = t + SIM_MIN_MS + Math.floor(rand.current() * SIM_VAR_MS);
+            sim.next = sim.until + 40_000 + Math.floor(rand.current() * 60_000);
+          }
+        }
+        const simActive = !isMine && t < sim.until;
+        occupied = isMine || simActive;
+        status = isMine ? "mine" : simActive ? "member" : "available";
       }
-      const simActive = !isMine && t < sim.until;
-      const occupied = isMine || simActive;
 
       demandRef.current[cfg.id] = ease(demandRef.current[cfg.id], occupied ? DEMAND_TARGET : 1);
 
@@ -89,9 +127,8 @@ export function usePlatform() {
 
       const ref = buf[Math.max(0, buf.length - 9)];
       const pct = ref ? ((display - ref) / ref) * 100 : 0;
-      const status: StallView["status"] = isMine ? "mine" : simActive ? "member" : "available";
 
-      return { id: cfg.id, price: display, buffer: buf.slice(), up: display >= ref, pct: Math.round(pct * 10) / 10, status };
+      return { id: cfg.id, price: display, buffer: buf.slice(), up: display >= ref, pct: Math.round(pct * 10) / 10, status, holderName };
     });
     setStalls(views);
 
@@ -170,6 +207,17 @@ export function usePlatform() {
     [tick]
   );
 
+  const doReserve = useCallback(
+    async (stall: StallId, who: string) => {
+      if (configuredRef.current) {
+        const ok = await setStallRef.current(stall);
+        if (!ok) return; // toilet was just taken — realtime will reflect it
+      }
+      startOccupancy(stall, who);
+    },
+    [startOccupancy]
+  );
+
   const reserve = useCallback(
     (stall: StallId) => {
       if (occRef.current) return; // already holding a stall
@@ -178,10 +226,18 @@ export function usePlatform() {
         setNamePromptFor(stall);
         return;
       }
-      startOccupancy(stall, who);
+      void doReserve(stall, who);
     },
-    [startOccupancy]
+    [doReserve]
   );
+
+  const join = useCallback((raw: string) => {
+    const who = raw.trim().slice(0, 40) || "Member";
+    saveName(who);
+    setNameState(who);
+    nameRef.current = who;
+    if (configuredRef.current) joinRef.current(who);
+  }, []);
 
   const confirmName = useCallback(
     (raw: string) => {
@@ -189,27 +245,30 @@ export function usePlatform() {
       saveName(who);
       setNameState(who);
       nameRef.current = who;
+      if (configuredRef.current) joinRef.current(who);
       const pending = namePromptFor;
       setNamePromptFor(null);
-      if (pending) startOccupancy(pending, who);
+      if (pending) void doReserve(pending, who);
     },
-    [namePromptFor, startOccupancy]
+    [namePromptFor, doReserve]
   );
 
   const cancelName = useCallback(() => setNamePromptFor(null), []);
 
   const endSession = useCallback(() => {
     const occ = occRef.current;
-    if (!occ) return;
     const t = Date.now();
-    const rate = Math.round(priceRef.current[occ.stall] * demandRef.current[occ.stall] * rushMult(t) * 100) / 100;
-    const finalAccrued = Math.round((occ.accrued + rate * ((t - occ.lastTickMs) / 60_000)) * 100) / 100;
-    const newSpend = Math.round((spendRef.current + finalAccrued) * 100) / 100;
-    spendRef.current = newSpend;
-    occRef.current = null;
-    const m: MarketState = { spend: newSpend, occupancy: null };
-    saveMarket(m);
-    setMarket(m);
+    if (occ) {
+      const rate = Math.round(priceRef.current[occ.stall] * demandRef.current[occ.stall] * rushMult(t) * 100) / 100;
+      const finalAccrued = Math.round((occ.accrued + rate * ((t - occ.lastTickMs) / 60_000)) * 100) / 100;
+      const newSpend = Math.round((spendRef.current + finalAccrued) * 100) / 100;
+      spendRef.current = newSpend;
+      occRef.current = null;
+      const m: MarketState = { spend: newSpend, occupancy: null };
+      saveMarket(m);
+      setMarket(m);
+    }
+    if (configuredRef.current) void setStallRef.current(null); // release the shared seat
     if (reducedRef.current) tick(t);
   }, [tick]);
 
@@ -229,7 +288,12 @@ export function usePlatform() {
     stalls,
     namePromptFor,
     rush: mounted ? isRushNow(now) : false,
+    // shared roster
+    configured: membersApi.configured,
+    members: membersApi.members,
+    myId: membersApi.myId,
     reserve,
+    join,
     confirmName,
     cancelName,
     endSession,
