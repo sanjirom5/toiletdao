@@ -1715,6 +1715,150 @@ a {
 }
 
 /* ============================================================
+   3D INTRO — the golden cabin
+   ============================================================ */
+.intro {
+  position: relative;
+  height: 340vh;
+  background: var(--obsidian);
+}
+.intro-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--obsidian);
+}
+.intro-canvas {
+  position: absolute;
+  inset: 0;
+}
+.intro-canvas canvas {
+  display: block;
+}
+.intro-title {
+  position: absolute;
+  top: 13%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  pointer-events: none;
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+  padding-inline: 24px;
+  will-change: opacity, transform;
+}
+.intro-wordmark {
+  font-family: var(--font-display);
+  font-weight: 360;
+  font-size: clamp(3rem, 9vw, 7rem);
+  letter-spacing: -0.02em;
+  color: var(--ivory);
+  line-height: 1;
+}
+.intro-wordmark span {
+  color: var(--gold);
+  font-style: italic;
+}
+.intro-sub {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--ivory-dim);
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  max-width: 30ch;
+}
+.intro-hint {
+  position: absolute;
+  bottom: 42px;
+  left: 0;
+  right: 0;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--stone);
+  pointer-events: none;
+}
+.intro-hint-line {
+  width: 1px;
+  height: 46px;
+  background: linear-gradient(var(--gold), transparent);
+  position: relative;
+  overflow: hidden;
+}
+.intro-hint-line::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 1px;
+  height: 50%;
+  background: var(--gold);
+  animation: hint-fall 1.8s var(--ease) infinite;
+}
+@keyframes hint-fall {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(300%); }
+}
+.intro-veil {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 46%,
+    rgba(201, 162, 75, 0.55),
+    rgba(201, 162, 75, 0.12) 34%,
+    var(--obsidian) 62%
+  );
+  will-change: opacity;
+}
+
+/* static fallback (reduced motion / no WebGL / SSR) */
+.intro-fallback {
+  min-height: 92vh;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(201, 162, 75, 0.1), transparent 55%),
+    var(--obsidian);
+  border-bottom: 1px solid var(--hair);
+}
+.intro-fallback-inner {
+  display: grid;
+  gap: 20px;
+  justify-items: center;
+  text-align: center;
+  padding: 40px 24px;
+}
+.intro-fallback-emblem {
+  font-size: 3rem;
+  color: var(--gold);
+  line-height: 1;
+}
+.intro-fallback-title {
+  font-family: var(--font-display);
+  font-weight: 360;
+  font-size: clamp(3rem, 9vw, 6rem);
+  color: var(--ivory);
+  line-height: 1;
+}
+.intro-fallback-title span {
+  color: var(--gold);
+  font-style: italic;
+}
+.intro-fallback-sub {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--ivory-dim);
+  font-size: 1.1rem;
+}
+
+/* ============================================================
    MOTION SAFETY
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {

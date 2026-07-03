@@ -9,7 +9,11 @@ display, hairlines instead of cards.
 
 ## Two surfaces
 
-- **`/` — the institution.** Marketing site: hero, the two-cabin estate with live
+- **`/` — the institution.** Opens on a scroll-driven **3D golden toilet** (Three.js /
+  react-three-fiber): it rotates as you scroll, the lid tips open, and the camera
+  plunges *inside* the bowl before the site is revealed. Degrades gracefully to a
+  static gold hero when WebGL is unavailable or reduced-motion is set. Then: hero, the
+  two-cabin estate with live
   status, an interactive booking desk (price your access live), the doctrine,
   private-club membership tiers, FAQ. A member ledger tracks your Toilet Score.
 - **`/reserve` — the terminal.** The actual product. Sign in, then book the one

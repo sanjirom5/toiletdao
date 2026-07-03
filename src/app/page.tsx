@@ -1,3 +1,4 @@
+import ToiletIntro from "@/components/three/ToiletIntro";
 import Ticker from "@/components/Ticker";
 import SiteNav from "@/components/SiteNav";
 import EstateStrip from "@/components/EstateStrip";
@@ -11,6 +12,8 @@ export default function Home() {
       <a className="skip-link" href="#top">
         Skip to content
       </a>
+      <ToiletIntro />
+      <div id="enter" />
       <Ticker />
       <SiteNav />
 
